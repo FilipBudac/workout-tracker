@@ -1,0 +1,50 @@
+[
+  {
+    "model": "training.bodypartscategory",
+    "pk": 1,
+    "fields": {
+      "name": "Chest",
+      "description": "The pectoral region is located on the anterior chest wall. It contains four muscles that exert a force on the upper limb: the pectoralis major, pectoralis minor, serratus anterior and subclavius."
+    }
+  },
+  {
+    "model": "training.bodypartscategory",
+    "pk": 2,
+    "fields": {
+      "name": "Legs",
+      "description": "The popliteus muscle, located in the lower leg, is responsible for “unlocking” the knee joint after extension."
+    }
+  },
+  {
+    "model": "training.bodypartscategory",
+    "pk": 3,
+    "fields": {
+      "name": "Shoulders",
+      "description": "Four muscles—the supraspinatus, infraspinatus, teres minor, and subscapularis—make up the rotator cuff. It stabilizes the shoulder and holds the head of the humerus into the glenoid cavity to maintain the principal shoulder joint."
+    }
+  },
+  {
+    "model": "training.bodypartscategory",
+    "pk": 4,
+    "fields": {
+      "name": "Back",
+      "description": "There is a large and complex group of muscles that work together to support the spine, help hold the body upright and allow the trunk of the body to move, twist and bend in many directions."
+    }
+  },
+  {
+    "model": "training.bodypartscategory",
+    "pk": 5,
+    "fields": {
+      "name": "Biceps",
+      "description": "The biceps is a large muscle that lies on the front of the upper arm between the shoulder and the elbow."
+    }
+  },
+  {
+    "model": "training.bodypartscategory",
+    "pk": 6,
+    "fields": {
+      "name": "Triceps",
+      "description": "Triceps muscle, any muscle with three heads, or points of origin, particularly the large extensor along the back of the upper arm in humans. "
+    }
+  }
+]

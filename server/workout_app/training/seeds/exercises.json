@@ -1,0 +1,65 @@
+[
+  {
+    "model": "training.exercise",
+    "pk": 1,
+    "fields": {
+      "name": "Bench press",
+      "description": "The bench press is an upper-body weight training exercise in which the trainee presses a weight upwards while lying on a weight training bench.",
+      "category": 1
+    }
+  },
+  {
+    "model": "training.exercise",
+    "pk": 2,
+    "fields": {
+      "name": "Squats",
+      "description": "A squat is a strength exercise in which the trainee lowers their hips from a standing position and then stands back up.",
+      "category": 2
+    }
+  },
+    {
+    "model": "training.exercise",
+    "pk": 3,
+    "fields": {
+      "name": "Military press",
+      "description": "The military press is a complete shoulder building exercise perfect for building shoulder muscle. The military press is an exercise with many names and is often referred to as the shoulder press, overhead press, and strict press.",
+      "category": 3
+    }
+  },
+    {
+    "model": "training.exercise",
+    "pk": 4,
+    "fields": {
+      "name": "Pull ups",
+      "description": "A pull-up is an upper-body strength exercise. The pull-up is a closed-chain movement where the body is suspended by the hands and pulls up.",
+      "category": 4
+    }
+  },
+  {
+    "model": "training.exercise",
+    "pk": 5,
+    "fields": {
+      "name": "Walking lunges",
+      "description": "Walking lunges are a variation on the static lunge exercise. Instead of standing back upright after performing a lunge on one leg, as you would in a static bodyweight lunge, you walk forward by lunging out with the other leg. ",
+      "category": 2
+    }
+  },
+  {
+    "model": "training.exercise",
+    "pk": 6,
+    "fields": {
+      "name": "Biceps curls",
+      "description": "Curls work the biceps muscles at the front of the upper arm, and also the muscles of the lower arm—the brachialis and brachioradialis.",
+      "category": 5
+    }
+  },
+    {
+    "model": "training.exercise",
+    "pk": 7,
+    "fields": {
+      "name": "Skull crushers",
+      "description": "The skull crusher is a push exercise that works the triceps brachii in isolation. It works this muscle from the elbow up to the latissimus dorsi of the back. ",
+      "category": 6
+    }
+  }
+]
