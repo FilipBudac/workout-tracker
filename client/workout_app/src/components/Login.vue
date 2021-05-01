@@ -6,7 +6,20 @@
 
 <script>
 export default {
-  name: "Login"
+  name: "Login",
+  data () {
+    return {
+      input: {
+        username: "",
+        password: ""
+      }
+    }
+  },
+  methods: {
+    login () {
+
+    }
+  }
 }
 </script>
 
