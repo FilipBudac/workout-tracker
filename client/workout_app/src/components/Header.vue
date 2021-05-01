@@ -2,17 +2,58 @@
   <div>
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <router-link class="nav-link" to="/">Home</router-link>
-        <router-link class="nav-link" to="/register">Register</router-link>
-        <router-link class="nav-link" to="/login">Login</router-link>
+
+        <router-link
+            v-if="isAuthenticated"
+            class="nav-link"
+            exact
+            :to="{ name: 'home' }"
+        >
+          Home
+        </router-link>
+        <router-link
+            v-if="!isAuthenticated"
+            class="nav-link"
+            exact
+            :to="{ name: 'register' }"
+        >
+          Register
+        </router-link>
+        <router-link
+            v-if="!isAuthenticated"
+            class="nav-link"
+            exact
+            :to="{ name: 'login' }"
+        >
+          Login
+        </router-link>
+        <!--    TODO: profile    -->
+        <button v-if="isAuthenticated" @click="logout">Logout</button>
+
       </b-navbar-nav>
     </b-navbar>
   </div>
 </template>
 
 <script>
+import { LOGOUT } from "@/store/actions/auth";
+import { mapGetters } from "vuex";
+
 export default {
-  name: "Header"
+  name: "Header",
+  computed: {
+    ...mapGetters({currentUser: "currentUser", isAuthenticated:"isAuthenticated"})
+  },
+  methods: {
+   async logout () {
+      try {
+        await this.$store.dispatch(LOGOUT)
+        await this.$router.push({name: "login"})
+      } catch (e) {
+        this.errors.push(e)
+      }
+    }
+  }
 }
 </script>
 

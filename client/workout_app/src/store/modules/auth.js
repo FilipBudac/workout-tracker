@@ -1,7 +1,6 @@
 import {
     LOGIN,
-    // REGISTER,
-    // CHECK_AUTH,
+    LOGOUT
 } from "../actions/auth";
 import {
     PURGE_AUTH,
@@ -43,7 +42,10 @@ const actions = {
                 });
         });
     },
-    // TODO: register, logout
+    [LOGOUT](context) {
+        context.commit(PURGE_AUTH);
+    },
+    // TODO: register
 };
 
 const mutations = {
