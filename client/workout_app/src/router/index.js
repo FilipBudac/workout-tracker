@@ -30,7 +30,6 @@ const routes = [
         name: 'home',
         component: Home,
         beforeEnter: ifAuthenticated
-
     },
     {
         path: '/register',

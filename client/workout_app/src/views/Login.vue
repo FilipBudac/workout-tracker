@@ -74,12 +74,11 @@ export default {
     async onLogin() {
       const payload = {
         "grant_type": "password",
-        // TODO: to .env
-        "client_id": "GT7n0mzHOFKzCTuvVMeoT1vIS5TExcO1m67Fjl51",
-        "username": "filip",
-        "password": "filip"
+        "client_id": process.env.VUE_APP_CLIENT_ID,
+        "username": this.form.username,
+        "password": this.form.password
       }
-
+      alert(process.env.VUE_APP_CLIENT_ID)
       try {
         await this.$store.dispatch(LOGIN, payload)
         await this.$router.push({name: "home"})
