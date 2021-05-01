@@ -7,3 +7,6 @@ python manage.py loaddata <file>
 pip freeze > requirements.txt
 
 pip install -r requirements.txt
+
+client id
+rzRGeRkqxE1ODJ4YfD2TRSuGM8uTNRyAfgEyehgMZ1COHi4EEo8T5TcuxvnOO6SeCoJE3nrMBaPzGp3z1rtnTeMbDMpvJHX8SMe0T7lGIP0ZnQB38NbmppdBbuQeLUSW
