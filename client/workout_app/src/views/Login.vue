@@ -78,7 +78,7 @@ export default {
         "username": this.form.username,
         "password": this.form.password
       }
-      alert(process.env.VUE_APP_CLIENT_ID)
+
       try {
         await this.$store.dispatch(LOGIN, payload)
         await this.$router.push({name: "home"})
