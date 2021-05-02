@@ -78,14 +78,14 @@ class Register(APIView, OAuthLibMixin):
     oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
 
     def post(self, request):
-
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
 
         try:
             with transaction.atomic():
-                serializer.save()
+                user = serializer.save()
+                user.set_password(user.password)
+                user.save()
 
                 data = {'user': UserSerializer(user).data}
 
