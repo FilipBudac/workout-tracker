@@ -8,20 +8,20 @@ import store from "../store";
 
 Vue.use(VueRouter)
 
-// const ifLoggedIn = (to, from, next) => {
-//     if (store.getters.isAuthenticated) {
-//         next("/")
-//         return
-//     }
-//     next()
-// }
-
 const ifAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
-        next();
+        next("/")
+        return
+    }
+    next()
+}
+
+const ifNotAuthenticated = (to, from, next) => {
+    if (!store.getters.isAuthenticated) {
+        next("/login");
         return;
     }
-    next("/login");
+    next();
 };
 
 const routes = [
@@ -29,19 +29,19 @@ const routes = [
         path: '/',
         name: 'home',
         component: Home,
-        beforeEnter: ifAuthenticated
+        beforeEnter: ifNotAuthenticated
     },
     {
         path: '/register',
         name: 'register',
         component: Register,
-        // beforeEnter: ifLoggedIn
+        beforeEnter: ifAuthenticated
     },
     {
         path: '/login',
         name: 'login',
         component: Login,
-        // beforeEnter: ifLoggedIn
+        beforeEnter: ifAuthenticated
     },
 ]
 
