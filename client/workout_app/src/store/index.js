@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import auth from "./modules/auth";
 import training from "./modules/training";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
         auth,
         training
     },
-    strict: debug
+    strict: debug,
+    plugins: [createPersistedState()]
 });
 
 export default store
