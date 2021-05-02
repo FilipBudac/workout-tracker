@@ -27,7 +27,15 @@
         >
           Login
         </router-link>
-        <!--    TODO: profile    -->
+        <router-link
+            v-if="isAuthenticated"
+            class="nav-link"
+            exact
+            :to="{ name: 'profile' }"
+        >
+          Profile
+        </router-link>
+
         <button v-if="isAuthenticated" @click="logout">Logout</button>
 
       </b-navbar-nav>

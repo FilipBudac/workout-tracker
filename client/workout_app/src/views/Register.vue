@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {REGISTER} from "../store/actions/auth";
+import {REGISTER} from "@/store/actions/auth";
 
 export default {
 name: "Register",
