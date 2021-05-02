@@ -1,6 +1,6 @@
 import {
     LOGIN,
-    LOGOUT
+    LOGOUT, REGISTER
 } from "../actions/auth";
 import {
     PURGE_AUTH,
@@ -32,12 +32,10 @@ const actions = {
         return new Promise(resolve => {
             ApiService.post("login/", payload)
                 .then(({ data }) => {
-                    console.log(data)
                     context.commit(SET_AUTH, data);
                     resolve(data);
                 })
                 .catch(({ response }) => {
-                    console.log(response)
                     context.commit(SET_ERROR, response.data.errors);
                 });
         });
@@ -45,7 +43,17 @@ const actions = {
     [LOGOUT](context) {
         context.commit(PURGE_AUTH);
     },
-    // TODO: register
+    [REGISTER](context, payload) {
+        return new Promise(resolve => {
+            ApiService.post("register/", payload)
+                .then(({ data }) => {
+                    resolve(data);
+                })
+                .catch(({ response }) => {
+                    context.commit(SET_ERROR, response.data.errors);
+                });
+        });
+    },
 };
 
 const mutations = {
