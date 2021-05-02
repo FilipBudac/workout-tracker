@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User, Group, update_last_login
 from django.db import transaction
-from django.utils import timezone
 from oauth2_provider.models import AccessToken, RefreshToken
 from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.views.mixins import OAuthLibMixin
@@ -10,7 +9,6 @@ from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from users.serializers import UserSerializer, GroupSerializer, RegisterSerializer, LoginSerializer
-from django.contrib.auth import authenticate, logout
 
 
 def destroy_tokens(user: User):
@@ -29,7 +27,7 @@ class UserList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetails(generics.RetrieveAPIView):
+class UserDetails(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     queryset = User.objects.all()
     serializer_class = UserSerializer
