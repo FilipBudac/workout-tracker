@@ -8,16 +8,16 @@
               <div class="form-group clearfix">
                 <div class="form-name float-left">
                   <label for="exampleInputName">Name</label>
-                  <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" v-model="currentUser.first_name">
+                  <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" v-model="user.first_name">
                 </div>
                 <div class="form-surname float-right">
-                  <label for="exampleInputEmail1">Surname</label>
-                  <input type="text" class="form-control" id="exampleInputSurname" placeholder="Enter surname" v-model="currentUser.last_name">
+                  <label for="exampleInputSurname">Surname</label>
+                  <input type="text" class="form-control" id="exampleInputSurname" placeholder="Enter surname" v-model="user.last_name">
                 </div>
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="currentUser.email">
+                <label for="exampleInputEmail">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email" v-model="user.email">
               </div>
               <button type="submit" class="btn btn-outline-primary w-50" >Submit</button>
             </form>
@@ -25,33 +25,50 @@
         </div>
       </div>
     </div>
+
     <pre>
-      {{currentUser}}
+      {{user}}
     </pre>
+
   </div>
 </template>
 
 <script>
 
 import {mapGetters} from "vuex";
+import {FETCH_USER} from "@/store/actions/auth";
+import {UPDATE_USER} from "@/store/actions/auth";
 
 export default {
   name: "Profile",
   computed: {
-    ...mapGetters({currentUser: "currentUser", isAuthenticated:"isAuthenticated"})
+    ...mapGetters(['currentUser'])
+  },
+  async beforeMount() {
+    this.user = await this.$store.dispatch(FETCH_USER, this.$route.params)
+  },
+  data () {
+    return {
+      errors: [],
+      user: {}
+    }
   },
   methods: {
-    onUpdateUser () {
+    async onUpdateUser () {
       const payload = {
-        userID: this.currentUser.id,
+        userID: this.user.id,
         form: {
-          first_name: this.currentUser.first_name,
-          last_name: this.currentUser.last_name,
-          email: this.currentUser.email,
+          first_name: this.user.first_name,
+          last_name: this.user.last_name,
+          email: this.user.email,
         }
       }
 
-      console.log(payload);
+      try {
+        await this.$store.dispatch(UPDATE_USER, payload)
+      } catch (e) {
+        this.errors.push(e)
+      }
     }
   }
 

@@ -8,13 +8,16 @@ const ApiService = {
     init() {
         Vue.use(VueAxios, axios);
         Vue.axios.defaults.baseURL = API_URL;
-        Vue.axios.defaults.headers = { 'Content-Type': 'application/json' }
+        Vue.axios.defaults.headers = {
+            'Content-Type': 'application/json',
+        }
     },
 
-    setHeader() {
-        Vue.axios.defaults.headers.common[
-            "Authorization"
-            ] = `Bearer ${AuthService.getAccessToken()}`;
+    setAuthHeader() {
+        Vue.axios.defaults.headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${AuthService.getAccessToken()}`
+        }
     },
 
     query(resource, params) {
@@ -23,11 +26,12 @@ const ApiService = {
         });
     },
 
-    get(resource, slug = "") {
-        return Vue.axios.get(`${resource}/${slug}`).catch(error => {
+    get(resource, params = {}) {
+        return Vue.axios.get(`${resource}`, { params: params, headers: {Authorization: `Bearer ${AuthService.getAccessToken()}`} }).catch(error => {
             throw new Error(`ApiService ${error}`);
         });
     },
+
 
     post(resource, params) {
         return Vue.axios.post(`${resource}`, params);
@@ -39,6 +43,12 @@ const ApiService = {
 
     put(resource, params) {
         return Vue.axios.put(`${resource}`, params);
+    },
+
+    patch(resource, params) {
+        this.setAuthHeader()
+
+        return Vue.axios.patch(`${resource}`, params);
     },
 
     delete(resource) {

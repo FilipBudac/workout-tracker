@@ -31,7 +31,10 @@
             v-if="isAuthenticated"
             class="nav-link"
             exact
-            :to="{ name: 'profile' }"
+            :to="{
+              name: 'profile',
+              params: { username: this.currentUser.username }
+            }"
         >
           Profile
         </router-link>
@@ -50,7 +53,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapGetters({currentUser: "currentUser", isAuthenticated:"isAuthenticated"})
+    ...mapGetters(["currentUser", "isAuthenticated"])
   },
   methods: {
    async logout () {

@@ -1,11 +1,15 @@
 import {
+    FETCH_USER,
     LOGIN,
-    LOGOUT, REGISTER
+    LOGOUT,
+    REGISTER,
+    UPDATE_USER
 } from "../actions/auth";
 import {
     PURGE_AUTH,
     SET_AUTH,
-    SET_ERROR
+    SET_ERROR,
+    SET_USER
 } from "../mutations/auth";
 
 import AuthService from "@/common/auth_service";
@@ -24,19 +28,22 @@ const getters = {
     },
     isAuthenticated(state) {
         return state.isAuthenticated;
+    },
+    errors(state) {
+        return state.errors;
     }
 };
 
 const actions = {
     [LOGIN](context, payload) {
         return new Promise(resolve => {
-            ApiService.post("login/", payload)
+            ApiService.post('login/', payload)
                 .then(({ data }) => {
-                    context.commit(SET_AUTH, data);
-                    resolve(data);
+                    context.commit(SET_AUTH, data)
+                    resolve(data)
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors);
+                    context.commit(SET_ERROR, response.data.errors)
                 });
         });
     },
@@ -45,14 +52,40 @@ const actions = {
     },
     [REGISTER](context, payload) {
         return new Promise(resolve => {
-            ApiService.post("register/", payload)
+            ApiService.post('register/', payload)
                 .then(({ data }) => {
-                    resolve(data);
+                    resolve(data)
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors);
+                    context.commit(SET_ERROR, response.data.errors)
                 });
         });
+    },
+    [UPDATE_USER](context, payload) {
+        const { userID, form } = payload;
+        console.log(userID)
+        console.log(form)
+        return new Promise(resolve => {
+            ApiService.patch(`users/${userID}/`, form)
+                .then(({ data }) => {
+                    resolve(data)
+                })
+                .catch(({ response }) => {
+                    context.commit(SET_ERROR, response.data.errors)
+                });
+        });
+    },
+    [FETCH_USER](context, payload) {
+        const { username } = payload;
+        return ApiService.get('users/', {username: username})
+            .then(({ data }) => {
+                // const user = data.shift()
+                // context.commit(SET_USER, user)
+                return data.length > 0 ? data.shift() : []
+            })
+            .catch(({ response }) => {
+                context.commit(SET_ERROR, response.data.errors)
+            });
     },
 };
 
@@ -73,6 +106,12 @@ const mutations = {
         state.user = {};
         state.errors = {};
         AuthService.destroyAuthData();
+    },
+
+    [SET_USER](state, data) {
+        state.isAuthenticated = true;
+        state.user = data;
+        state.errors = {};
     }
 };
 export default {

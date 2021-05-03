@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group, update_last_login
 from django.db import transaction
+from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.models import AccessToken, RefreshToken
 from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.views.mixins import OAuthLibMixin
@@ -25,6 +26,8 @@ class UserList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['username']
 
 
 class UserDetails(generics.RetrieveUpdateAPIView):

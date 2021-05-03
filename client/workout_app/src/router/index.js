@@ -45,7 +45,7 @@ const routes = [
         beforeEnter: ifAuthenticated
     },
     {
-        path: '/profile',
+        path: '/:username/profile',
         name: 'profile',
         component: Profile,
         beforeEnter: ifNotAuthenticated
