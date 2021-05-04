@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="wrapper d-flex justify-content-center">
-        <div class="form-wrapper w-50 p-5 ">
+        <div class="form-wrapper w-50 p-5">
           <div class="jumbotron border border-primary rounded-100">
             <form @submit.prevent="onRegister">
               <div class="form-group clearfix">

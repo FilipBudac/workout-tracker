@@ -2,7 +2,10 @@
   <div>
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-
+        <b-navbar-nav class="ml-auto">
+          <p>hello</p>
+        </b-navbar-nav>
+        <b-navbar-brand>Gymloger</b-navbar-brand>
         <router-link
             v-if="isAuthenticated"
             class="nav-link"
