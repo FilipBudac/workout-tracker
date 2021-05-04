@@ -1,11 +1,36 @@
-// create toaster class with methods (success, error, ...)
-// isolating toaster functionality from everywhere in code to here
+import Vue from "vue";
+import Toasted from "vue-toasted";
+
+const Toaster = {
+    init() {
+        Vue.use(Toasted, {
+            iconPack : 'material'
+        })
+    },
+
+    successMessage (message, icon) {
+        Vue.toasted.success(message, {
+            theme: 'bubble',
+            position: 'top-center',
+            duration: 2000,
+            icon : icon
+        })
+    },
+
+    errorMessage (message, icon){
+        Vue.toasted.error(message, {
+            theme: 'bubble',
+            position: 'top-center',
+            duration: 2000,
+            icon : icon
+        })
+    }
+}
+
+export default Toaster;
+
 
 // OR
-
-// register custom messages
-
-// Example
 
 // import Toasted from 'vue-toasted';
 // Vue.use(Toasted);

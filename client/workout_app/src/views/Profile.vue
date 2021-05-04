@@ -32,6 +32,7 @@
 
 import {FETCH_USER} from "@/store/actions/auth";
 import {UPDATE_USER} from "@/store/actions/auth";
+import Toaster from "@/common/toaster";
 
 export default {
   name: "Profile",
@@ -57,22 +58,10 @@ export default {
 
       try {
         await this.$store.dispatch(UPDATE_USER, payload)
-
-        this.$toasted.success('User has been updated.', {
-          theme: 'bubble',
-          position: 'top-center',
-          duration: 2000,
-          icon : 'account_box'
-        })
+        Toaster.successMessage('User has been updated.', 'account_box')
       } catch (e) {
         this.errors.push(e)
-
-        this.$toasted.error('User update has failed.', {
-          theme: 'bubble',
-          position: 'top-center',
-          duration: 2000,
-          icon: 'error'
-        })
+        Toaster.errorMessage('User update has failed.', 'error')
       }
     }
   }

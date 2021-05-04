@@ -58,6 +58,7 @@
 
 <script>
 import {LOGIN} from "@/store/actions/auth";
+import Toaster from "@/common/toaster";
 
 export default {
   name: "Login",
@@ -71,6 +72,9 @@ export default {
     }
   },
   methods: {
+    logInFailed(response) {
+      return 'status' in response && response !== 200
+    },
     async onLogin() {
       const payload = {
         "grant_type": "password",
@@ -80,16 +84,16 @@ export default {
       }
 
       try {
-        await this.$store.dispatch(LOGIN, payload)
+        const response = await this.$store.dispatch(LOGIN, payload)
 
-        this.$toasted.success('You are logged in.', {
-          theme: 'bubble',
-          position: 'top-center',
-          duration: 2000,
-          icon : 'login'
-        })
-        
+        if (this.logInFailed(response)) {
+          Toaster.errorMessage('Log in failed. Invalid credentials were given.', 'error')
+          return
+        }
+
+        Toaster.successMessage('You are logged in.', 'login')
         await this.$router.push({name: "home"})
+
       } catch (e) {
         this.errors.push(e)
       }

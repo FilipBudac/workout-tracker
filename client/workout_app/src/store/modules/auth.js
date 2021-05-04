@@ -17,7 +17,7 @@ import ApiService from "@/common/api_service";
 
 
 const state = {
-    errors: null,
+    errors: [],
     user: {},
     isAuthenticated: !!AuthService.getAccessToken()
 };
@@ -43,7 +43,8 @@ const actions = {
                     resolve(data)
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors)
+                    context.commit(SET_ERROR, response.data.non_field_errors)
+                    resolve(response)
                 });
         });
     },
@@ -57,7 +58,7 @@ const actions = {
                     resolve(data)
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors)
+                    context.commit(SET_ERROR, response.data.non_field_errors)
                 });
         });
     },
@@ -71,7 +72,8 @@ const actions = {
                     resolve(data)
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors)
+                    context.commit(SET_ERROR, response.data.non_field_errors)
+                    resolve(response)
                 });
         });
     },
@@ -82,7 +84,7 @@ const actions = {
                 return data.shift()
             })
             .catch(({ response }) => {
-                context.commit(SET_ERROR, response.data.errors)
+                context.commit(SET_ERROR, response.data.non_field_errors)
             });
     },
 };
