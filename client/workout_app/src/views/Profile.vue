@@ -25,25 +25,16 @@
         </div>
       </div>
     </div>
-
-    <pre>
-      {{user}}
-    </pre>
-
   </div>
 </template>
 
 <script>
 
-import {mapGetters} from "vuex";
 import {FETCH_USER} from "@/store/actions/auth";
 import {UPDATE_USER} from "@/store/actions/auth";
 
 export default {
   name: "Profile",
-  computed: {
-    ...mapGetters(['currentUser'])
-  },
   async beforeMount() {
     this.user = await this.$store.dispatch(FETCH_USER, this.$route.params)
   },

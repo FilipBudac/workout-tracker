@@ -46,8 +46,6 @@ const ApiService = {
     },
 
     patch(resource, params) {
-        this.setAuthHeader()
-
         return Vue.axios.patch(`${resource}`, params);
     },
 

@@ -63,11 +63,11 @@ const actions = {
     },
     [UPDATE_USER](context, payload) {
         const { userID, form } = payload;
-        console.log(userID)
-        console.log(form)
         return new Promise(resolve => {
+            ApiService.setAuthHeader()
             ApiService.patch(`users/${userID}/`, form)
                 .then(({ data }) => {
+                    context.commit(SET_USER, data)
                     resolve(data)
                 })
                 .catch(({ response }) => {
@@ -79,9 +79,7 @@ const actions = {
         const { username } = payload;
         return ApiService.get('users/', {username: username})
             .then(({ data }) => {
-                // const user = data.shift()
-                // context.commit(SET_USER, user)
-                return data.length > 0 ? data.shift() : []
+                return data.shift()
             })
             .catch(({ response }) => {
                 context.commit(SET_ERROR, response.data.errors)
