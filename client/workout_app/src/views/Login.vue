@@ -81,6 +81,14 @@ export default {
 
       try {
         await this.$store.dispatch(LOGIN, payload)
+
+        this.$toasted.success('You are logged in.', {
+          theme: 'bubble',
+          position: 'top-center',
+          duration: 2000,
+          icon : 'login'
+        })
+        
         await this.$router.push({name: "home"})
       } catch (e) {
         this.errors.push(e)

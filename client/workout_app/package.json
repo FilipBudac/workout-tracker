@@ -11,8 +11,10 @@
     "axios": "^0.21.1",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "material-icons": "^0.6.2",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
+    "vue-toasted": "^1.1.28",
     "vuex": "^3.6.2",
     "vuex-persistedstate": "^4.0.0-beta.3"
   },

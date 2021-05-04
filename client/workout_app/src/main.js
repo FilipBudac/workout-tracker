@@ -10,9 +10,15 @@ import store from "./store";
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'material-icons/iconfont/material-icons.css';
+
+import Toasted from 'vue-toasted';
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(Toasted, {
+  iconPack : 'material'
+})
 
 ApiService.init();
 
