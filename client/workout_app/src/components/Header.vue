@@ -39,7 +39,7 @@
           Profile
         </router-link>
 
-        <button v-if="isAuthenticated" @click="logout">Logout</button>
+        <a v-if="isAuthenticated" @click="logout" class="nav-link">Logout</a>
 
       </b-navbar-nav>
     </b-navbar>

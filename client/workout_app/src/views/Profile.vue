@@ -1,31 +1,75 @@
 <template>
-  <div>
-    <div>
-      <div class="wrapper d-flex justify-content-center">
-        <div class="form-wrapper w-50 p-5 ">
-          <div class="jumbotron border border-primary rounded-100">
-            <form @submit.prevent="onUpdateUser">
-              <div class="form-group clearfix">
-                <div class="form-name float-left">
-                  <label for="exampleInputName">Name</label>
-                  <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" v-model="user.first_name">
-                </div>
-                <div class="form-surname float-right">
-                  <label for="exampleInputSurname">Surname</label>
-                  <input type="text" class="form-control" id="exampleInputSurname" placeholder="Enter surname" v-model="user.last_name">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email" v-model="user.email">
-              </div>
-              <button type="submit" class="btn btn-outline-primary w-50" >Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <b-container>
+    <b-row class="d-flex justify-content-center">
+      <b-card class="mt-3" header="Update User Form" style="width: 29.7rem;">
+        <b-form @submit.prevent="onUpdateUser">
+
+          <b-row class="justify-content-center">
+            <b-form-group
+                class="align-text-left mr-1"
+                id="input-group-1"
+                label="Username:"
+                label-for="input-1"
+            >
+              <b-form-input
+                  id="input-1"
+                  v-model="user.first_name"
+                  placeholder="Enter username"
+                  required
+              ></b-form-input>
+
+            </b-form-group>
+
+            <b-form-group
+                class="align-text-left ml-1"
+                id="input-group-2"
+                label="Your Password:"
+                label-for="input-2"
+            >
+
+              <b-form-input
+                  id="input-2"
+                  v-model="user.last_name"
+                  placeholder="Enter password"
+                  required
+              ></b-form-input>
+
+            </b-form-group>
+          </b-row>
+
+          <b-form-group
+              class="align-text-left"
+              id="input-group-2"
+              label="Your Password:"
+              label-for="input-2"
+          >
+
+            <b-form-input
+                id="input-2"
+                v-model="user.email"
+                type="password"
+                placeholder="Enter password"
+                required
+            ></b-form-input>
+
+          </b-form-group>
+
+          <b-button class="mr-1 w-25" type="submit" variant="dark">Edit</b-button>
+        </b-form>
+      </b-card>
+    </b-row>
+
+    <b-row class="d-flex justify-content-center" v-if="errors && errors.length">
+      <b-card class="mt-3" header="Form Data Result" style="width: 24rem;">
+        <ul>
+          <li v-for="error in errors" :key="error.message">
+            {{error.message}}
+          </li>
+        </ul>
+      </b-card>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -71,5 +115,9 @@ export default {
 </script>
 
 <style scoped>
+
+.align-text-left {
+  text-align: left
+}
 
 </style>

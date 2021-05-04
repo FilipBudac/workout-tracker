@@ -6,10 +6,10 @@
           <b-form @submit.prevent="onLogin">
 
             <b-form-group
+                class="align-text-left"
                 id="input-group-1"
                 label="Username:"
                 label-for="input-1"
-                align="left"
             >
               <b-form-input
                   id="input-1"
@@ -21,10 +21,10 @@
             </b-form-group>
 
             <b-form-group
+                class="align-text-left"
                 id="input-group-2"
                 label="Your Password:"
                 label-for="input-2"
-                align="left"
             >
 
               <b-form-input
@@ -37,7 +37,7 @@
 
             </b-form-group>
 
-            <b-button class="mr-1" type="submit" variant="primary">Login</b-button>
+            <b-button class="mr-1 w-25" type="submit" variant="dark">Login</b-button>
           </b-form>
         </b-card>
       </b-row>
@@ -77,10 +77,10 @@ export default {
     },
     async onLogin() {
       const payload = {
-        "grant_type": "password",
-        "client_id": process.env.VUE_APP_CLIENT_ID,
-        "username": this.form.username,
-        "password": this.form.password
+        grant_type: "password",
+        client_id: process.env.VUE_APP_CLIENT_ID,
+        username: this.form.username,
+        password: this.form.password
       }
 
       try {
@@ -103,5 +103,9 @@ export default {
 </script>
 
 <style scoped>
+
+.align-text-left {
+  text-align: left
+}
 
 </style>
