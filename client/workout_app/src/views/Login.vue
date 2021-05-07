@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import {LOGIN} from "@/store/actions/auth";
+import { LOGIN } from "@/store/actions/auth";
 import Toaster from "@/common/toaster";
 
 export default {

@@ -14,7 +14,7 @@ export default {
   .footer {
     height: 50px;
     flex-shrink: 0;
-    background-color: #134c7d;
+    background-color: var(--primary-color);
     color: white
   }
 </style>

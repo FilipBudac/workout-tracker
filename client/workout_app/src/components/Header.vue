@@ -54,7 +54,7 @@
           <b-button
               v-if="isAuthenticated"
               variant="outline-info"
-              class="mb-2 ml-4"
+              class="mb-1 ml-4"
               @click="logout"
           >
             <b-icon
