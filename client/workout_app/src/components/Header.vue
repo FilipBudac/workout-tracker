@@ -19,7 +19,7 @@
               params: { username: this.currentUser.username }
             }"
           >
-            <b-avatar size="1.9rem" variant="info" />
+            <b-avatar size="1.6rem" variant="info" />
             Profile
           </router-link>
 
@@ -29,7 +29,7 @@
               exact
               :to="{ name: 'home' }"
           >
-            <b-icon variant="info"  @click="logout" icon="house-door" aria-hidden="true" />
+            <b-icon variant="info" icon="house-door" aria-hidden="true" />
             Home
           </router-link>
 
@@ -55,6 +55,7 @@
               v-if="isAuthenticated"
               variant="outline-info"
               class="mb-2 ml-4"
+              @click="logout"
           >
             <b-icon
                 v-if="isAuthenticated"

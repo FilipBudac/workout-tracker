@@ -41,14 +41,13 @@
           <b-form-group
               class="align-text-left"
               id="input-group-2"
-              label="Your Password:"
+              label="Your Email:"
               label-for="input-2"
           >
 
             <b-form-input
                 id="input-2"
                 v-model="user.email"
-                type="password"
                 placeholder="Enter password"
                 required
             ></b-form-input>
