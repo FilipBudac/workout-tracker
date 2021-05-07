@@ -2,32 +2,37 @@
   <div>
 
       <b-navbar toggleable="lg" type="dark" variant="dark">
+
         <!-- Left aligned nav items -->
-        <img width="45px" :src="logo_image">
+        <img width="45px" :src="logo_image" alt="logo">
         <b-navbar-brand>Gymloger</b-navbar-brand>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <router-link right
-                       v-if="isAuthenticated"
-                       class="nav-link"
-                       exact
-                       :to="{
+          <router-link
+            right
+            v-if="isAuthenticated"
+            class="nav-link"
+            exact
+            :to="{
               name: 'profile',
               params: { username: this.currentUser.username }
             }"
           >
-            <b-avatar size="1.9rem" variant="info"></b-avatar>
+            <b-avatar size="1.9rem" variant="info" />
             Profile
           </router-link>
+
           <router-link right
               v-if="isAuthenticated"
               class="nav-link"
               exact
               :to="{ name: 'home' }"
           >
-            <b-icon variant="info"  @click="logout" icon="house-door" aria-hidden="true"></b-icon> Home
+            <b-icon variant="info"  @click="logout" icon="house-door" aria-hidden="true" />
+            Home
           </router-link>
+
           <router-link right
               v-if="!isAuthenticated"
               class="nav-link"
@@ -36,6 +41,7 @@
           >
             Register
           </router-link>
+
           <router-link right
               v-if="!isAuthenticated"
               class="nav-link"
@@ -45,15 +51,24 @@
             Login
           </router-link>
 
-          <b-button  v-if="isAuthenticated" variant="outline-info" class="mb-2 ml-4">
-            <b-icon  v-if="isAuthenticated"  @click="logout" icon="power" aria-hidden="true"></b-icon> Logout
+          <b-button
+              v-if="isAuthenticated"
+              variant="outline-info"
+              class="mb-2 ml-4"
+          >
+            <b-icon
+                v-if="isAuthenticated"
+                @click="logout"
+                icon="power"
+                aria-hidden="true"
+            />
+            Logout
           </b-button>
+
         </b-navbar-nav>
       </b-navbar>
 
     </div>
-
-
 </template>
 
 <script>
