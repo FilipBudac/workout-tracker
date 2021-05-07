@@ -104,8 +104,5 @@ export default {
 
 <style scoped>
 
-.align-text-left {
-  text-align: left
-}
 
 </style>

@@ -5,6 +5,45 @@
       <b-card class="mt-3" header="Update User Form" style="width: 29.7rem;">
         <b-form @submit.prevent="onUpdateUser">
 
+          <b-row>
+            <b-col>
+              <b-form-group
+                  class="align-text-left"
+                  id="input-group-5"
+                  label="First Name:"
+                  label-for="input-5"
+              >
+
+                <b-form-input
+                    id="input-3"
+                    v-model="this.user.first_name"
+                    type="text"
+                    placeholder="Enter First Name"
+                    required
+                ></b-form-input>
+
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group
+                  class="align-text-left"
+                  id="input-group-4"
+                  label="Last Name:"
+                  label-for="input-4"
+              >
+
+                <b-form-input
+                    id="input-4"
+                    v-model="this.user.last_name"
+                    type="text"
+                    placeholder="Enter Last Name"
+                    required
+                ></b-form-input>
+
+              </b-form-group>
+            </b-col>
+          </b-row>
+
           <b-row class="justify-content-center">
             <b-form-group
                 class="align-text-left mr-1"
@@ -116,8 +155,5 @@ export default {
 
 <style scoped>
 
-.align-text-left {
-  text-align: left
-}
 
 </style>

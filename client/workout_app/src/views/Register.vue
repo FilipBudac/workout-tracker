@@ -1,42 +1,113 @@
 <template>
   <div>
-    <div>
-      <div class="wrapper d-flex justify-content-center">
-        <div class="form-wrapper w-50 p-5">
-          <div class="jumbotron border border-primary rounded-100">
-            <form @submit.prevent="onRegister">
-              <div class="form-group clearfix">
-                <div class="form-group">
-                  <label for="exampleInputNickname">Nickname</label>
-                  <input type="text" class="form-control" id="exampleInputNickname" placeholder="Nickname" v-model="form.username">
-                </div>
-                  <div class="form-name float-left">
-                    <label for="exampleInputName">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" v-model="form.name">
-                  </div>
-                <div class="form-surname float-right">
-                  <label for="exampleInputEmail1">Surname</label>
-                  <input type="text" class="form-control" id="exampleInputSurname" placeholder="Enter surname" v-model="form.surname">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="form.email">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="form.password">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPasswordRepeat">Repeat password</label>
-                <input type="password" class="form-control" id="exampleInputPasswordRepeat" placeholder="Repeat password" v-model="form.repeat_password">
-              </div>
-              <button type="submit" class="btn btn-outline-primary w-50" >Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <b-container>
+      <b-row class="d-flex justify-content-center">
+        <b-card rounded="lg" header-text-variant="white" header-bg-variant="dark" class="mt-3" header="Register Form" style="width: 24rem;">
+          <b-form @submit.prevent="onLogin">
+            <b-row>
+              <b-col>
+                <b-form-group
+                    class="align-text-left "
+                    id="input-group-5"
+                    label="First Name:"
+                    label-for="input-5"
+                >
+
+                  <b-form-input
+                      id="input-3"
+                      v-model="form.name"
+                      type="text"
+                      placeholder="Enter First Name"
+                      required
+                  ></b-form-input>
+
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group
+                    class="align-text-left"
+                    id="input-group-4"
+                    label="Last Name:"
+                    label-for="input-4"
+                >
+
+                  <b-form-input
+                      id="input-4"
+                      v-model="form.surname"
+                      type="text"
+                      placeholder="Enter Last Name"
+                      required
+                  ></b-form-input>
+
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <b-form-group
+                class="align-text-left"
+                id="input-group-1"
+                label="Username:"
+                label-for="input-1"
+            >
+              <b-form-input
+                  id="input-1"
+                  v-model="form.username"
+                  placeholder="Enter username"
+                  required
+              ></b-form-input>
+
+            </b-form-group>
+
+            <b-form-group
+                class="align-text-left"
+                id="input-group-2"
+                label="Your Password:"
+                label-for="input-2"
+            >
+
+              <b-form-input
+                  id="input-2"
+                  v-model="form.password"
+                  type="password"
+                  placeholder="Enter password"
+                  required
+              ></b-form-input>
+
+            </b-form-group>
+
+            <b-form-group
+                class="align-text-left"
+                id="input-group-3"
+                label="Repeat Your Password:"
+                label-for="input-3"
+            >
+
+              <b-form-input
+                  id="input-3"
+                  v-model="form.repeat_password"
+                  type="password"
+                  placeholder="Enter password"
+                  required
+              ></b-form-input>
+
+            </b-form-group>
+
+            <b-button class="mr-1 w-50" type="submit" variant="outline-info">Register Now</b-button>
+          </b-form>
+        </b-card>
+      </b-row>
+
+      <b-row class="d-flex justify-content-center" v-if="errors && errors.length">
+        <b-card class="mt-3" header="Form Data Result" style="width: 24rem;">
+          <ul>
+            <li v-for="error in errors" :key="error.message">
+              {{error.message}}
+            </li>
+          </ul>
+        </b-card>
+      </b-row>
+
+    </b-container>
   </div>
 </template>
 

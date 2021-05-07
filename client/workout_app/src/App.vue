@@ -69,4 +69,7 @@ export default {
   background-color: var(--secondary-color) !important;
 }
 
+.align-text-left {
+  text-align: left
+}
 </style>
