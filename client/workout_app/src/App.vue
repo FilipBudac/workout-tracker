@@ -44,4 +44,8 @@ export default {
   height: 100vh;
 }
 
+.toaster-bg-color {
+  background-color: #1a95a9 !important;
+}
+
 </style>

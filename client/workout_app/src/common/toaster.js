@@ -13,7 +13,8 @@ const Toaster = {
             theme: 'bubble',
             position: 'top-center',
             duration: 2000,
-            icon : icon
+            icon : icon,
+            className: ['toaster-bg-color',]
         })
     },
 

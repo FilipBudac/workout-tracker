@@ -59,7 +59,6 @@
           >
             <b-icon
                 v-if="isAuthenticated"
-                @click="logout"
                 icon="power"
                 aria-hidden="true"
             />
