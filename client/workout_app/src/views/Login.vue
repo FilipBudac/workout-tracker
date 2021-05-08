@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row class="d-flex justify-content-center">
-        <b-card class="mt-3" header="Login Form" style="width: 24rem;">
+        <b-card class="mt-3" header-text-variant="white" header-bg-variant="dark" header="Login Form" style="width: 24rem;">
           <b-form @submit.prevent="onLogin">
 
             <b-form-group
@@ -37,7 +37,7 @@
 
             </b-form-group>
 
-            <b-button class="mr-1 w-25" type="submit" variant="dark">Login</b-button>
+            <b-button class="mr-1 w-25 button-bg-color" type="submit" variant="dark">Login</b-button>
           </b-form>
         </b-card>
       </b-row>

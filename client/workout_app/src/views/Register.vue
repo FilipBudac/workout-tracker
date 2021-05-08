@@ -3,9 +3,10 @@
     <b-container>
       <b-row class="d-flex justify-content-center">
         <b-card rounded="lg" header-text-variant="white" header-bg-variant="dark" class="mt-3" header="Register Form" style="width: 24rem;">
-          <b-form @submit.prevent="onLogin">
+          <b-form @submit.prevent="onRegister">
             <b-row>
               <b-col>
+
                 <b-form-group
                     class="align-text-left "
                     id="input-group-5"
@@ -92,7 +93,8 @@
 
             </b-form-group>
 
-            <b-button class="mr-1 w-50" type="submit" variant="outline-info">Register Now</b-button>
+            <b-button class="mr-1 w-50 button-bg-color" type="submit" >Register Now</b-button>
+
           </b-form>
         </b-card>
       </b-row>

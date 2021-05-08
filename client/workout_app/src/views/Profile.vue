@@ -2,11 +2,12 @@
 
   <b-container>
     <b-row class="d-flex justify-content-center">
-      <b-card class="mt-3" header="Update User Form" style="width: 29.7rem;">
+      <b-card class="mt-3" header-text-variant="white" header-bg-variant="dark" header="Update User Form" style="width: 29.7rem;">
         <b-form @submit.prevent="onUpdateUser">
 
           <b-row>
             <b-col>
+
               <b-form-group
                   class="align-text-left"
                   id="input-group-5"
@@ -16,7 +17,7 @@
 
                 <b-form-input
                     id="input-3"
-                    v-model="this.user.first_name"
+                    v-model=" user.first_name"
                     type="text"
                     placeholder="Enter First Name"
                     required
@@ -34,7 +35,7 @@
 
                 <b-form-input
                     id="input-4"
-                    v-model="this.user.last_name"
+                    v-model="user.last_name"
                     type="text"
                     placeholder="Enter Last Name"
                     required
@@ -42,39 +43,6 @@
 
               </b-form-group>
             </b-col>
-          </b-row>
-
-          <b-row class="justify-content-center">
-            <b-form-group
-                class="align-text-left mr-1"
-                id="input-group-1"
-                label="Username:"
-                label-for="input-1"
-            >
-              <b-form-input
-                  id="input-1"
-                  v-model="user.first_name"
-                  placeholder="Enter username"
-                  required
-              ></b-form-input>
-
-            </b-form-group>
-
-            <b-form-group
-                class="align-text-left ml-1"
-                id="input-group-2"
-                label="Your Password:"
-                label-for="input-2"
-            >
-
-              <b-form-input
-                  id="input-2"
-                  v-model="user.last_name"
-                  placeholder="Enter password"
-                  required
-              ></b-form-input>
-
-            </b-form-group>
           </b-row>
 
           <b-form-group
@@ -93,7 +61,7 @@
 
           </b-form-group>
 
-          <b-button class="mr-1 w-25" type="submit" variant="dark">Edit</b-button>
+          <b-button class="mr-1 w-25 button-bg-color" type="submit" variant="dark">Edit</b-button>
         </b-form>
       </b-card>
     </b-row>

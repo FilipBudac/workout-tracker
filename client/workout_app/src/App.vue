@@ -72,4 +72,12 @@ export default {
 .align-text-left {
   text-align: left
 }
+
+.button-bg-color {
+  background-color: var(--secondary-color) !important;
+}
+
+.button-bg-color:hover {
+  background-color: #126f80 !important;
+}
 </style>
