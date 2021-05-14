@@ -11,10 +11,11 @@ export default {
 </script>
 
 <style scoped>
+
   .footer {
     height: 50px;
-    flex-shrink: 0;
     background-color: var(--primary-color);
-    color: white
+    color: white;
   }
+
 </style>

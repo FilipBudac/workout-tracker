@@ -1,14 +1,30 @@
 <template>
   <div>
-    Home
+      <b-row>
+
+        <b-col sm="2">
+          <SideNav />
+        </b-col>
+
+        <b-col sm="10">
+          <router-view></router-view>
+        </b-col>
+
+      </b-row>
   </div>
 </template>
 
 <script>
+
+import SideNav from "@/components/sidenav/SideNav";
+
 export default {
   name: 'Home',
   props: {
     msg: String
+  },
+  components: {
+    SideNav
   }
 }
 </script>

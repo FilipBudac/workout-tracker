@@ -1,12 +1,12 @@
 <template>
   <div id="app">
 
-    <header>
+    <header class="header-height">
       <Header />
     </header>
 
-    <main class="container">
-      <router-view></router-view>
+    <main class="main-height">
+        <router-view></router-view>
     </main>
 
     <footer>
@@ -44,6 +44,10 @@ export default {
   --bg-color: #f1f5f8;
   --primary-font-style: 'Rubik';
   --secondary-font-style: 'Karla';
+  --body-height: 100vh;
+
+  --sidenav-width: 18rem;
+  --sidenav-item-height: 3rem;
 }
 
 
@@ -56,13 +60,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: var(--bg-color);
-  min-height: calc(100vh - 80px);
+  min-height: calc(var(--body-height) - 80px);
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+.main-height {
+  height: var(--body-height);
 }
 
 .toaster-bg-color {
@@ -80,4 +82,9 @@ export default {
 .button-bg-color:hover {
   background-color: #126f80 !important;
 }
+
+.header-height {
+  height: 4.5rem;
+}
+
 </style>

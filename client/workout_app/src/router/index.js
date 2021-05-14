@@ -1,11 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Home from "@/views/Home";
+import Home from "@/views/home/Home";
 import Register from "@/views/Register";
-import Login from "@/views/Login";
-import store from "../store";
 import Profile from "@/views/Profile";
+import Login from "@/views/Login";
+import Exercises from "@/views/home/Exercises";
+import Trainings from "@/views/home/Trainings";
+
+import store from "../store";
 
 Vue.use(VueRouter)
 
@@ -27,10 +30,30 @@ const ifNotAuthenticated = (to, from, next) => {
 
 const routes = [
     {
-        path: '/',
+        path: '/home',
         name: 'home',
         component: Home,
-        beforeEnter: ifNotAuthenticated
+        beforeEnter: ifNotAuthenticated,
+        children: [
+            {
+                path: 'exercises',
+                name: 'exercises',
+                component: Exercises,
+                beforeEnter: ifNotAuthenticated,
+            },
+            {
+                path: 'trainings',
+                name: 'trainings',
+                component: Trainings,
+                beforeEnter: ifNotAuthenticated,
+            },
+        ]
+    },
+    {
+        path: 'trainings',
+        name: 'trainings',
+        component: Trainings,
+        beforeEnter: ifNotAuthenticated,
     },
     {
         path: '/register',

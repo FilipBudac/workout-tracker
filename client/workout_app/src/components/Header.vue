@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar toggleable="lg" type="dark" variant="dark" class="header-height">
 
         <!-- Left aligned nav items -->
         <img width="45px" :src="logo_image" alt="logo">
