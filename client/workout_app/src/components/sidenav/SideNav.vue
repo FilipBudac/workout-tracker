@@ -1,21 +1,34 @@
 <template>
     <nav class="sidenav-panel">
-      <ul class="nav sidenav-list">
 
+      <!--  first level  -->
+      <ul class="nav sidenav-list">
         <li
             v-for="(item, itemKey) in navItems"
             :key="itemKey"
-            @click="activateItem(item)"
+            @click="activateNavItem(item)"
         >
           <SideNavItem
-              :text="item.text"
-              :navigate-to="item.navigateTo"
-              :icon="item.icon"
-              :active="item.active"
+              v-bind:item="item"
+              v-bind:are-children-visible.sync="showMoreKeys[item.text]"
+              v-bind:class="{ 'pl-4': hasNavItemSubpages(item) }"
           />
+            <!--  second level  -->
+            <ul class="nav sidenav-list" v-if="hasNavItemSubpages(item) && showMoreKeys[item.text]">
+              <li
+                  v-for="(itemChildren, itemChildrenKey) in item.children"
+                  :key="itemChildrenKey"
+                  @click.stop="activateNavItem(itemChildren)"
+              >
+                <SideNavItem
+                    v-bind:item="itemChildren"
+                />
+              </li>
+            </ul>
 
         </li>
       </ul>
+
     </nav>
 </template>
 
@@ -28,14 +41,19 @@ export default {
     SideNavItem
   },
   methods: {
-    activateItem(activeItem) {
-      this.navItems.forEach(item => {
-        item.active = false
-      })
-      activeItem.active = true
-    },
+    activateNavItem(activeItem) {
+      if (this.currentActiveItem) {
+        this.currentActiveItem.active = false
+      }
 
+      activeItem.active = true
+      this.currentActiveItem = activeItem
+    },
+    hasNavItemSubpages(item) {
+      return item.children.length > 0
+    },
   },
+
   data() {
     return {
       navItems: [
@@ -44,7 +62,22 @@ export default {
           navigateTo: 'exercises',
           icon: 'person',
           active: false,
-          children: []
+          children: [
+            {
+              text: 'Back',
+              navigateTo: 'exercises',
+              icon: 'person',
+              active: false,
+              children: []
+            },
+            {
+              text: 'Chest',
+              navigateTo: 'exercises',
+              icon: 'person',
+              active: false,
+              children: []
+            },
+          ]
         },
         {
           text: 'Trainings',
@@ -53,7 +86,9 @@ export default {
           active: false,
           children: []
         },
-      ]
+      ],
+      showMoreKeys: {},
+      currentActiveItem: {},
     }
   }
 }
@@ -70,6 +105,6 @@ export default {
 
   .sidenav-list {
     list-style-type: none;
-    padding: 2rem 0 0 0;
   }
+
 </style>

@@ -20,9 +20,6 @@ import SideNav from "@/components/sidenav/SideNav";
 
 export default {
   name: 'Home',
-  props: {
-    msg: String
-  },
   components: {
     SideNav
   }

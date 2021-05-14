@@ -1,11 +1,11 @@
 <template>
   <div
-      v-bind:class="{ 'sidenav-item-container-active': active }"
+      v-bind:class="{ 'sidenav-item-container-active': item.active }"
       class="justify-content-center sidenav-item-container"
   >
     <b-icon
         class="sidenav-item-icon"
-        :icon="icon"
+        :icon="item.icon"
         aria-hidden="true"
     />
     <router-link
@@ -13,18 +13,62 @@
         exact
         class="sidenav-item"
         :to="{
-              name:  navigateTo,
+              name:  item.navigateTo,
             }"
     >
-      {{ text }}
+      <span>
+        {{ item.text }}
+      </span>
+
+      <span v-if="item.children.length > 0">
+            <b-icon
+                v-if="!this.areChildrenVisible"
+                @click="showMore(item.text)"
+                icon="arrow-down-short"
+                aria-hidden="true"
+            />
+      </span>
+
+      <span v-if="item.children.length > 0">
+            <b-icon
+                v-if="this.areChildrenVisible"
+                @click="showMore(item.text)"
+                icon="arrow-up-short"
+                aria-hidden="true"
+            />
+      </span>
+
     </router-link>
   </div>
+
 </template>
 
 <script>
 export default {
   name: "SideNavItem",
-  props: ['text', 'navigateTo', 'icon', 'active']
+  props: {
+    item: {
+      type: Object,
+      required: true,
+      // validator
+    },
+    areChildrenVisible: {
+      type: Boolean
+    }
+  },
+  methods: {
+    showMore() {
+      this.areChildrenVisibleLocal = !this.areChildrenVisible
+
+      // notify parent (SideNav) of any changes
+      this.$emit('update:areChildrenVisible', this.areChildrenVisibleLocal)
+    },
+  },
+  data() {
+    return {
+      areChildrenVisibleLocal: false
+    }
+  }
 }
 </script>
 
