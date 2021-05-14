@@ -1,14 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import store from "../store";
+
 import Home from "@/views/home/Home";
 import Register from "@/views/Register";
 import Profile from "@/views/Profile";
 import Login from "@/views/Login";
 import Exercises from "@/views/home/Exercises";
 import Trainings from "@/views/home/Trainings";
+import PageNotFound from "@/views/PageNotFound";
 
-import store from "../store";
 
 Vue.use(VueRouter)
 
@@ -29,6 +31,10 @@ const ifNotAuthenticated = (to, from, next) => {
 };
 
 const routes = [
+    {
+        path: '/',
+        redirect: '/home'
+    },
     {
         path: '/home',
         name: 'home',
@@ -73,6 +79,11 @@ const routes = [
         component: Profile,
         beforeEnter: ifNotAuthenticated
     },
+    {
+        path: '*',
+        name: 'page-not-found',
+        component: PageNotFound
+    }
 ]
 
 const router = new VueRouter({
