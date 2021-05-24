@@ -149,7 +149,6 @@ name: "Register",
 
       try {
         const response = await this.$store.dispatch(REGISTER, payload)
-        console.log(response)
 
         if (this.registerFailed(response)) {
           Toaster.errorMessage('Registration failed. Invalid credentials were given.', 'error')
