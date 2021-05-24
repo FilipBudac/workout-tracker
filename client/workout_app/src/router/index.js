@@ -56,12 +56,6 @@ const routes = [
         ]
     },
     {
-        path: 'trainings',
-        name: 'trainings',
-        component: Trainings,
-        beforeEnter: ifNotAuthenticated,
-    },
-    {
         path: '/register',
         name: 'register',
         component: Register,

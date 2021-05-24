@@ -59,6 +59,7 @@ const actions = {
                 })
                 .catch(({ response }) => {
                     context.commit(SET_ERROR, response.data.non_field_errors)
+                    resolve(response)
                 });
         });
     },

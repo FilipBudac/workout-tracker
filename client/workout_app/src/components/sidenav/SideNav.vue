@@ -77,6 +77,13 @@ export default {
               active: false,
               children: []
             },
+            {
+              text: 'Legs',
+              navigateTo: 'exercises',
+              icon: 'person',
+              active: false,
+              children: []
+            },
           ]
         },
         {

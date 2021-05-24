@@ -89,6 +89,7 @@ export default {
         if (this.logInFailed(response)) {
           Toaster.errorMessage('Log in failed. Invalid credentials were given.', 'error')
           return
+
         }
 
         Toaster.successMessage('You are logged in.', 'login')

@@ -115,6 +115,7 @@
 
 <script>
 import {REGISTER} from "@/store/actions/auth";
+import Toaster from "@/common/toaster";
 
 export default {
 name: "Register",
@@ -132,6 +133,10 @@ name: "Register",
     }
   },
   methods:{
+    registerFailed(response){
+      return 'status' in response && response !== 200
+    },
+
     async onRegister(){
       const payload = {
         "first_name": this.form.name,
@@ -143,8 +148,17 @@ name: "Register",
       }
 
       try {
-        await this.$store.dispatch(REGISTER, payload)
+        const response = await this.$store.dispatch(REGISTER, payload)
+        console.log(response)
+
+        if (this.registerFailed(response)) {
+          Toaster.errorMessage('Registration failed. Invalid credentials were given.', 'error')
+          return
+        }
+
+        Toaster.successMessage('Your registration was successful.', 'login')
         await this.$router.push({name: "login"})
+
       } catch (e) {
         this.errors.push(e)
       }
