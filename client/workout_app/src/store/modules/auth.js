@@ -115,6 +115,7 @@ const mutations = {
         state.errors = {};
     }
 };
+
 export default {
     state,
     actions,
