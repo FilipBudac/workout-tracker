@@ -22,7 +22,7 @@ export default {
   name: 'Home',
   components: {
     SideNav
-  }
+  },
 }
 </script>
 
