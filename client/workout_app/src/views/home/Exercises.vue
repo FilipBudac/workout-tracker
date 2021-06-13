@@ -11,7 +11,9 @@
 
 <script>
 
-import {FETCH_EXERCISES} from "../../store/actions/training";
+import {
+  FETCH_EXERCISES
+} from "@/store/actions/training";
 
 export default {
   name: "Exercises",
