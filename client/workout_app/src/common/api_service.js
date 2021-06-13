@@ -3,6 +3,8 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import AuthService from "@/common/auth_service";
 import { API_URL } from "@/common/config";
+import {REFRESH_TOKEN} from "@/store/actions/auth";
+import store from "@/store";
 
 const ApiService = {
     init() {
@@ -20,36 +22,64 @@ const ApiService = {
         }
     },
 
+    async refreshToken() {
+        const expired = AuthService.hasTokenExpired();
+
+        if (! expired) {
+            return;
+        }
+
+        const payload = {
+            "grant_type": "refresh_token",
+            "refresh_token": AuthService.getRefreshToken(),
+            "client_id": process.env.VUE_APP_CLIENT_ID,
+        }
+
+       await store.dispatch(REFRESH_TOKEN, payload)
+    },
+
     query(resource, params) {
         return Vue.axios.get(resource, params).catch(error => {
             throw new Error(`ApiService ${error}`);
         });
     },
 
-    get(resource, params = {}) {
+    async get(resource, params = {}) {
+        await this.refreshToken()
+
         return Vue.axios.get(`${resource}`, { params: params, headers: {Authorization: `Bearer ${AuthService.getAccessToken()}`} }).catch(error => {
             throw new Error(`ApiService ${error}`);
         });
     },
 
 
-    post(resource, params) {
+    async post(resource, params) {
+        await this.refreshToken()
+
         return Vue.axios.post(`${resource}`, params);
     },
 
-    update(resource, slug, params) {
+    async update(resource, slug, params) {
+        await this.refreshToken()
+
         return Vue.axios.put(`${resource}/${slug}`, params);
     },
 
-    put(resource, params) {
+    async put(resource, params) {
+        await this.refreshToken()
+
         return Vue.axios.put(`${resource}`, params);
     },
 
-    patch(resource, params) {
+    async patch(resource, params) {
+        await this.refreshToken()
+
         return Vue.axios.patch(`${resource}`, params);
     },
 
-    delete(resource) {
+    async delete(resource) {
+        await this.refreshToken()
+
         return Vue.axios.delete(resource).catch(error => {
             throw new Error(`ApiService ${error}`);
         });

@@ -73,7 +73,7 @@ export const hasTokenExpired = () => {
 
     const expirationDate = parseInt(getExpirationDate())
 
-    return expirationDate >= utcTimestamp
+    return expirationDate < utcTimestamp
 }
 
 const destroyExpirationDate = () => {
