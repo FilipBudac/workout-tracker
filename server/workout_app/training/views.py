@@ -1,7 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.mixins import DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 
 from training.models import Exercise, BodyPartsCategory
