@@ -7,6 +7,7 @@
         class="sidenav-item-icon"
         :icon="item.icon"
         aria-hidden="true"
+        variant="info"
     />
     <router-link
         active
@@ -81,7 +82,7 @@ export default {
   }
 
   .sidenav-item-container-active {
-    background-color: #19889b;
+    border: 1px solid #17a2b8
   }
 
   .sidenav-item-icon {
@@ -90,7 +91,7 @@ export default {
   }
 
   .sidenav-item-container:hover {
-    background-color: #19889b;
+    background-color: #6c757d;
   }
 
   .sidenav-item-container {

@@ -102,12 +102,12 @@ export default {
 </script>
 
 <style scoped>
-
   .sidenav-panel {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     height: var(--body-height);
     width: var(--sidenav-width);
     border: solid var(--primary-color);
+    border-top: solid #1a95a9;
   }
 
   .sidenav-list {
