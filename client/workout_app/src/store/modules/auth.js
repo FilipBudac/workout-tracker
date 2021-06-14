@@ -78,8 +78,9 @@ const actions = {
     },
     [UPDATE_USER](context, payload) {
         const { userID, form } = payload;
+
+        ApiService.setAuthHeader()
         return new Promise(resolve => {
-            ApiService.setAuthHeader()
             ApiService.patch(`users/${userID}/`, form)
                 .then(({ data }) => {
                     context.commit(SET_USER, data)
@@ -93,6 +94,8 @@ const actions = {
     },
     [FETCH_USER](context, payload) {
         const { username } = payload;
+
+        ApiService.setAuthHeader()
         return ApiService.get('users/', {username: username})
             .then(({ data }) => {
                 return data.shift()

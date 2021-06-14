@@ -13,9 +13,6 @@ const getters = {
 };
 
 const actions = {
-    // TODO: define action (tip: FETCH_USER action, Profile.vue)
-    // actions are called from events, which are handled in Vue components
-
     [FETCH_EXERCISES](context) {
         ApiService.setAuthHeader()
         return ApiService.get('exercises/')
@@ -29,9 +26,6 @@ const actions = {
 };
 
 const mutations = {
-    // TODO: define mutations
-    // mutations mutate state
-
     [SET_ERROR](state, error) {
         state.errors = error;
     },

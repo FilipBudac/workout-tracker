@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from training.models import Exercise, BodyPartsCategory
+
+admin.site.register(Exercise)
+admin.site.register(BodyPartsCategory)

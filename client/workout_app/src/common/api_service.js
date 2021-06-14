@@ -48,7 +48,7 @@ const ApiService = {
         // TODO: fix
         // await this.refreshToken()
 
-        return Vue.axios.get(`${resource}`, { params: params, headers: {Authorization: `Bearer ${AuthService.getAccessToken()}`} }).catch(error => {
+        return Vue.axios.get(`${resource}`, { params: params }).catch(error => {
             throw new Error(`ApiService ${error}`);
         });
     },
