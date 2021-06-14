@@ -50,7 +50,7 @@ const actions = {
     },
     [REFRESH_TOKEN](context, payload) {
         return new Promise(resolve => {
-            ApiService.post('oauth2/token/', payload)
+            ApiService.refresh('oauth2/token/', payload)
                 .then(({ data }) => {
                     context.commit(REFRESH_AUTH, data)
                     resolve(data)
@@ -80,6 +80,7 @@ const actions = {
         const { userID, form } = payload;
 
         ApiService.setAuthHeader()
+
         return new Promise(resolve => {
             ApiService.patch(`users/${userID}/`, form)
                 .then(({ data }) => {

@@ -107,7 +107,7 @@ export default {
     height: var(--body-height);
     width: var(--sidenav-width);
     border: solid var(--primary-color);
-    border-top: solid #1a95a9;
+    border-top: solid #1a95a9 1px;
   }
 
   .sidenav-list {

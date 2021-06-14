@@ -45,8 +45,7 @@ const ApiService = {
     },
 
     async get(resource, params = {}) {
-        // TODO: fix
-        // await this.refreshToken()
+        await this.refreshToken()
 
         return Vue.axios.get(`${resource}`, { params: params }).catch(error => {
             throw new Error(`ApiService ${error}`);
@@ -57,6 +56,10 @@ const ApiService = {
     async post(resource, params) {
         await this.refreshToken()
 
+        return Vue.axios.post(`${resource}`, params);
+    },
+
+    async refresh(resource, params) {
         return Vue.axios.post(`${resource}`, params);
     },
 
