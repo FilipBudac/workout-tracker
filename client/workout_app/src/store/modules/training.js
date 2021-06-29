@@ -1,5 +1,5 @@
 import {SET_ERROR} from "../mutations/auth";
-import {FETCH_EXERCISES} from "../actions/training";
+import {DELETE_EXERCISE, FETCH_EXERCISES} from "../actions/training";
 import ApiService from "../../common/api_service";
 
 const state = {
@@ -16,14 +16,32 @@ const actions = {
     [FETCH_EXERCISES](context) {
         ApiService.setAuthHeader()
         return ApiService.get('exercises/')
-            .then(({ data }) => {
+            .then(({data}) => {
                 return data
             })
-            .catch(({ response }) => {
+            .catch(({response}) => {
                 context.commit(SET_ERROR, response.data.non_field_errors)
             });
     },
-};
+
+    [DELETE_EXERCISE](context, payload) {
+        const { exerciseID } = payload;
+        // return new Promise(resolve => {
+        ApiService.setAuthHeader()
+
+        return ApiService.delete(`exercises/${exerciseID}`)
+                .then(({data}) => {
+                    console.log(data)
+                    return data;
+                })
+                .catch(({response}) => {
+                    context.commit(SET_ERROR, response.error)
+                    // resolve(response)
+                });
+        // });
+
+    }
+}
 
 const mutations = {
     [SET_ERROR](state, error) {

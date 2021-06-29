@@ -36,10 +36,12 @@
             </b-button>
           </div>
 
+          <pre>{{row.item.id}}</pre>
+
           <div class="ml-1 mr-1"/>
 
           <div class="table-delete-button text-right">
-            <b-button variant="danger">
+            <b-button @click="deleteExercise(row.item.id)" variant="danger">
               <b-icon-trash />
             </b-button>
           </div>
@@ -49,8 +51,28 @@
 
       <template #row-details="row">
         <b-card>
-          SUPNUT SEM EDIT FORM
-          <b-button size="sm" @click="row.toggleDetails">Hide</b-button>
+          <b-form inline>
+            <b-form-input
+                id="inline-form-input-name"
+                class="mb-2 mr-sm-2 mb-sm-0 w-50"
+                placeholder="Exercise name"
+            ></b-form-input>
+
+            <b-dropdown
+                split
+                split-variant="outline-primary"
+                variant="info"
+                text="Choose Category"
+                class="m-2"
+            >
+              <b-dropdown-item href="#">Chest</b-dropdown-item>
+              <b-dropdown-item href="#">Biceps</b-dropdown-item>
+              <b-dropdown-item href="#">Shoulders</b-dropdown-item>
+              <b-dropdown-item href="#">Legs</b-dropdown-item>
+              <b-dropdown-item href="#">Triceps</b-dropdown-item>
+            </b-dropdown>
+            <b-button right @click="row.toggleDetails">Hide</b-button>
+          </b-form>
         </b-card>
       </template>
 
@@ -68,6 +90,8 @@
 import {
   FETCH_EXERCISES
 } from "@/store/actions/training";
+import Toaster from "../../common/toaster";
+import {DELETE_EXERCISE} from "../../store/actions/training";
 
 export default {
   name: "Exercises",
@@ -98,6 +122,19 @@ export default {
       return exercise.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) ||
           exercise.category_name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase());
     },
+    async deleteExercise(exerciseID){
+      const payload = {
+        exerciseID: exerciseID
+      }
+      try {
+        const response = await this.$store.dispatch(DELETE_EXERCISE, payload)
+        console.log(response)
+        Toaster.successMessage('Exercise has been deleted.', 'account_box')
+      } catch (e) {
+        this.errors.push(e)
+        Toaster.errorMessage('Exercise has not been deleted..', 'error')
+      }
+    }
   }
 }
 </script>
