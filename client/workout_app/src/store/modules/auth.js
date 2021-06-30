@@ -36,7 +36,7 @@ const getters = {
 
 const actions = {
     [LOGIN](context, payload) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             ApiService.post('login/', payload)
                 .then(({ data }) => {
                     context.commit(SET_AUTH, data)
@@ -44,12 +44,12 @@ const actions = {
                 })
                 .catch(({ response }) => {
                     context.commit(SET_ERROR, response.data.non_field_errors)
-                    resolve(response)
+                    reject(response)
                 });
         });
     },
     [REFRESH_TOKEN](context, payload) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             ApiService.refresh('oauth2/token/', payload)
                 .then(({ data }) => {
                     context.commit(REFRESH_AUTH, data)
@@ -57,7 +57,7 @@ const actions = {
                 })
                 .catch(({ response }) => {
                     context.commit(SET_ERROR, response.data.non_field_errors)
-                    resolve(response)
+                    reject(response)
                 });
         });
     },
@@ -65,14 +65,14 @@ const actions = {
         context.commit(PURGE_AUTH);
     },
     [REGISTER](context, payload) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             ApiService.post('register/', payload)
                 .then(({ data }) => {
                     resolve(data)
                 })
                 .catch(({ response }) => {
                     context.commit(SET_ERROR, response.data.non_field_errors)
-                    resolve(response)
+                    reject(response)
                 });
         });
     },

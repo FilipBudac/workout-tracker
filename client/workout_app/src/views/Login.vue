@@ -42,15 +42,15 @@
         </b-card>
       </b-row>
 
-      <b-row class="d-flex justify-content-center" v-if="errors && errors.length">
-        <b-card class="mt-3" header="Form Data Result" style="width: 24rem;">
-          <ul>
-            <li v-for="error in errors" :key="error.message">
-              {{error.message}}
-            </li>
-          </ul>
-        </b-card>
-      </b-row>
+<!--      <b-row class="d-flex justify-content-center" v-if="errors && errors.length">-->
+<!--        <b-card class="mt-3" header="Form Data Result" style="width: 24rem;">-->
+<!--          <ul>-->
+<!--            <li v-for="error in errors" :key="error.message">-->
+<!--              {{error.message}}-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </b-card>-->
+<!--      </b-row>-->
 
     </b-container>
   </div>
@@ -72,9 +72,6 @@ export default {
     }
   },
   methods: {
-    logInFailed(response) {
-      return 'status' in response && response.status !== 200
-    },
     async onLogin() {
       const payload = {
         grant_type: "password",
@@ -84,18 +81,12 @@ export default {
       }
 
       try {
-        const response = await this.$store.dispatch(LOGIN, payload)
-
-        if (this.logInFailed(response)) {
-          Toaster.errorMessage('Log in failed. Invalid credentials were given.', 'error')
-          return
-        }
-
+        await this.$store.dispatch(LOGIN, payload)
         Toaster.successMessage('You are logged in.', 'login')
         await this.$router.push({name: "home"})
-
-      } catch (e) {
-        this.errors.push(e)
+      } catch (err) {
+        this.errors.push(err)
+        Toaster.errorMessage('Log in failed.', 'error')
       }
     },
   }

@@ -133,10 +133,6 @@ name: "Register",
     }
   },
   methods:{
-    registerFailed(response){
-      return 'status' in response && response.status !== 201
-    },
-
     async onRegister(){
       const payload = {
         "first_name": this.form.name,
@@ -148,18 +144,12 @@ name: "Register",
       }
 
       try {
-        const response = await this.$store.dispatch(REGISTER, payload)
-
-        if (this.registerFailed(response)) {
-          Toaster.errorMessage('Registration failed. Invalid credentials were given.', 'error')
-          return
-        }
-
+        await this.$store.dispatch(REGISTER, payload)
         Toaster.successMessage('Your registration was successful.', 'login')
         await this.$router.push({name: "login"})
-
-      } catch (e) {
-        this.errors.push(e)
+      } catch (err) {
+        this.errors.push(err)
+        Toaster.errorMessage('Registration failed. Invalid credentials were given.', 'error')
       }
     }
   }
