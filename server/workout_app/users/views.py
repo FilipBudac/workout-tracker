@@ -66,7 +66,8 @@ class Login(APIView, OAuthLibMixin):
 
         data = {
             'auth': body,
-            'user': UserSerializer(user).data
+            'user': UserSerializer(user).data,
+            'status': status.HTTP_200_OK
         }
 
         return Response(data, status=status.HTTP_200_OK)
@@ -90,7 +91,7 @@ class Register(APIView, OAuthLibMixin):
 
                 data = {'user': UserSerializer(user).data}
 
-                return Response(data)
+                return Response(data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response(data={'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

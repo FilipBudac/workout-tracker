@@ -36,8 +36,6 @@
             </b-button>
           </div>
 
-          <pre>{{row.item.id}}</pre>
-
           <div class="ml-1 mr-1"/>
 
           <div class="table-delete-button text-right">
@@ -91,7 +89,7 @@ import {
   FETCH_EXERCISES
 } from "@/store/actions/training";
 import Toaster from "../../common/toaster";
-import {DELETE_EXERCISE} from "../../store/actions/training";
+import {DELETE_EXERCISE} from "@/store/actions/training";
 
 export default {
   name: "Exercises",
@@ -114,6 +112,7 @@ export default {
         { key: "buttons", label: "" },
       ],
       exercises: [],
+      errors: [],
     }
   },
   methods: {
@@ -127,12 +126,12 @@ export default {
         exerciseID: exerciseID
       }
       try {
-        const response = await this.$store.dispatch(DELETE_EXERCISE, payload)
-        console.log(response)
+        await this.$store.dispatch(DELETE_EXERCISE, payload)
+        this.exercises = this.exercises.filter(exercise => exercise.id !== exerciseID)
         Toaster.successMessage('Exercise has been deleted.', 'account_box')
-      } catch (e) {
-        this.errors.push(e)
-        Toaster.errorMessage('Exercise has not been deleted..', 'error')
+      } catch (err) {
+        this.errors.push(err)
+        Toaster.errorMessage('Exercise has not been deleted.', 'error')
       }
     }
   }

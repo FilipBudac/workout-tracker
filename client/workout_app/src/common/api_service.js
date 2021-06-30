@@ -84,9 +84,7 @@ const ApiService = {
     async delete(resource) {
         await this.refreshToken()
 
-        return Vue.axios.delete(resource).catch(error => {
-            throw new Error(`ApiService ${error}`);
-        });
+        return Vue.axios.delete(resource);
     }
 };
 

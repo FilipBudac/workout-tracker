@@ -26,20 +26,16 @@ const actions = {
 
     [DELETE_EXERCISE](context, payload) {
         const { exerciseID } = payload;
-        // return new Promise(resolve => {
         ApiService.setAuthHeader()
 
         return ApiService.delete(`exercises/${exerciseID}`)
                 .then(({data}) => {
-                    console.log(data)
                     return data;
                 })
                 .catch(({response}) => {
                     context.commit(SET_ERROR, response.error)
-                    // resolve(response)
+                    throw response
                 });
-        // });
-
     }
 }
 

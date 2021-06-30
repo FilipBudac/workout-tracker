@@ -134,7 +134,7 @@ name: "Register",
   },
   methods:{
     registerFailed(response){
-      return 'status' in response && response !== 200
+      return 'status' in response && response.status !== 201
     },
 
     async onRegister(){

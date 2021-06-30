@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     logInFailed(response) {
-      return 'status' in response && response !== 200
+      return 'status' in response && response.status !== 200
     },
     async onLogin() {
       const payload = {
@@ -89,7 +89,6 @@ export default {
         if (this.logInFailed(response)) {
           Toaster.errorMessage('Log in failed. Invalid credentials were given.', 'error')
           return
-
         }
 
         Toaster.successMessage('You are logged in.', 'login')
