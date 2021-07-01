@@ -15,4 +15,4 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class BodyPartsCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BodyPartsCategory
-        fields = ('name', 'description')
+        fields = ('id', 'name', 'description')
