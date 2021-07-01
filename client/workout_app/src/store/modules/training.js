@@ -1,5 +1,5 @@
 import {SET_ERROR} from "../mutations/auth";
-import {DELETE_EXERCISE, FETCH_EXERCISES} from "../actions/training";
+import {DELETE_EXERCISE, FETCH_CATEGORIES, FETCH_EXERCISES} from "../actions/training";
 import ApiService from "../../common/api_service";
 
 const state = {
@@ -36,7 +36,20 @@ const actions = {
                     context.commit(SET_ERROR, response.error)
                     throw response
                 });
-    }
+    },
+
+    [FETCH_CATEGORIES](context) {
+        ApiService.setAuthHeader()
+        return ApiService.get('categories/')
+            .then(({data}) => {
+                return data
+            })
+            .catch(({response}) => {
+                context.commit(SET_ERROR, response.data.non_field_errors)
+            });
+    },
+
+
 }
 
 const mutations = {

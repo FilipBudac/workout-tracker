@@ -51,24 +51,20 @@
         <b-card>
           <b-form inline>
             <b-form-input
+                v-bind:value="row.item.name"
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0 w-50"
-                placeholder="Exercise name"
             ></b-form-input>
-
-            <b-dropdown
-                split
-                split-variant="outline-primary"
-                variant="info"
-                text="Choose Category"
-                class="m-2"
-            >
-              <b-dropdown-item href="#">Chest</b-dropdown-item>
-              <b-dropdown-item href="#">Biceps</b-dropdown-item>
-              <b-dropdown-item href="#">Shoulders</b-dropdown-item>
-              <b-dropdown-item href="#">Legs</b-dropdown-item>
-              <b-dropdown-item href="#">Triceps</b-dropdown-item>
-            </b-dropdown>
+            <b-form-select v-model="selectedCategory">
+              <b-form-select-option
+                  v-model="selectedCategory"
+                  v-for="item in categories"
+                  :key="item.name"
+                  :selected="row.item.name"
+              >
+                {{item.name}}
+              </b-form-select-option>
+            </b-form-select>
             <b-button right @click="row.toggleDetails">Hide</b-button>
           </b-form>
         </b-card>
@@ -86,18 +82,22 @@
 <script>
 
 import {
-  FETCH_EXERCISES
+  DELETE_EXERCISE,
+  FETCH_EXERCISES,
+  FETCH_CATEGORIES
 } from "@/store/actions/training";
-import Toaster from "../../common/toaster";
-import {DELETE_EXERCISE} from "@/store/actions/training";
+import Toaster from "@/common/toaster";
 
 export default {
   name: "Exercises",
   async beforeMount() {
     this.exercises = await this.$store.dispatch(FETCH_EXERCISES)
+    this.categories = await this.$store.dispatch(FETCH_CATEGORIES)
+    console.log(this.categories)
   },
   data(){
     return {
+      selectedCategory: null,
       currentPage: 1,
       perPage: 10,
       filter: null,
@@ -133,6 +133,10 @@ export default {
         this.errors.push(err)
         Toaster.errorMessage('Exercise has not been deleted.', 'error')
       }
+    },
+
+    changeCategory(category){
+      this.selectedCategory = category
     }
   }
 }
