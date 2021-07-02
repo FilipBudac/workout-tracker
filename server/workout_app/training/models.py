@@ -28,7 +28,7 @@ class TrainingTypeCategory(models.Model):
 class Exercise(models.Model):
     name = models.CharField(verbose_name='name', max_length=127)
     description = models.CharField(verbose_name='description', max_length=255)
-    img = models.CharField(verbose_name='image path', max_length=255, blank=True, null=True)
+    img = models.TextField(verbose_name='image path', blank=True, null=True)
     category = models.ForeignKey(BodyPartsCategory, on_delete=models.CASCADE, verbose_name="exercise category")
 
     class Meta:
