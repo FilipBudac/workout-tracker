@@ -16,6 +16,7 @@
 
     </div>
 
+    <!--  TEST UPLOAD FILE  -->
     <div class="w-50 container">
       <b-form-file
           accept="image/*"
@@ -42,11 +43,11 @@
         hover
     >
 
-      <!--  EXERCISE DELETE -->
-      <template #cell(buttons)="row">
+      <!--  DELETE EXERCISE  -->
+      <template #cell(buttons)="exercise">
         <b-row class="text-right">
           <div class="table-delete-button text-right">
-            <b-button variant="info" @click="row.toggleDetails">
+            <b-button variant="info" @click="exercise.toggleDetails">
               <b-icon-pencil-square />
             </b-button>
           </div>
@@ -54,36 +55,48 @@
           <div class="ml-1 mr-1"/>
 
           <div class="table-delete-button text-right">
-            <b-button @click="deleteExercise(row.item.id)" variant="danger">
+            <b-button @click="deleteExercise(exercise.item.id)" variant="danger">
               <b-icon-trash />
             </b-button>
           </div>
         </b-row>
-
       </template>
 
-      <!--  EXERCISE EDIT -->
-      <template #row-details="row">
+      <!--  EDIT EXERCISE -->
+      <template #row-details="exercise">
         <b-card>
           <b-form inline>
 
+            <!--  NAME  -->
             <b-form-input
-                v-bind:value="row.item.name"
+                v-bind:value="exercise.item.name"
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0 w-50"
             ></b-form-input>
 
-            <b-form-select v-model="row.item.category">
+            <!--  CATEGORY  -->
+            <b-form-select v-model="exercise.item.category">
               <b-form-select-option
-                  v-for="item in categories"
-                  :key="item.id"
-                  :value="item.id"
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
               >
-                {{item.name}}
+                {{category.name}}
               </b-form-select-option>
             </b-form-select>
 
-            <b-button right @click="row.toggleDetails">Hide</b-button>
+
+            <!--  DESCRIPTION  -->
+            <b-form-textarea
+                id="textarea"
+                placeholder="Enter something..."
+                rows="3"
+                max-rows="6"
+                v-bind:value="exercise.item.description"
+            ></b-form-textarea>
+
+            <!--  HIDE BUTTON  -->
+            <b-button right @click="exercise.toggleDetails">Hide</b-button>
 
           </b-form>
         </b-card>
@@ -114,6 +127,7 @@ export default {
     this.exercises = await this.$store.dispatch(FETCH_EXERCISES)
     this.categories = await this.$store.dispatch(FETCH_CATEGORIES)
     console.log(this.categories)
+    console.log(this.exercises)
   },
   data(){
     return {
