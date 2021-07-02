@@ -3,18 +3,32 @@
 
     <div class="justify-content-center row container ml-1 mt-4">
 
+      <!--  SELECT ROWS PER PAGE  -->
       <b-form-fieldset label="Rows per page" class="col-2">
         <b-form-select :options="options" v-model="perPage">
         </b-form-select>
       </b-form-fieldset>
 
+      <!--  INPUT SEARCH BAR -->
       <b-form-fieldset label="Filter" class="col-6">
         <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
       </b-form-fieldset>
 
     </div>
 
+    <div class="w-50 container">
+      <b-form-file
+          accept="image/*"
+          @change="encodeImage($event.target.files)"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+      ></b-form-file>
 
+      <img :src="image" alt="image">
+
+    </div>
+
+    <!--  EXERCISE TABLE -->
     <b-table
         head-variant="dark"
         class="w-75 m-5 mx-auto table-light border border-secondary"
@@ -28,6 +42,7 @@
         hover
     >
 
+      <!--  EXERCISE DELETE -->
       <template #cell(buttons)="row">
         <b-row class="text-right">
           <div class="table-delete-button text-right">
@@ -47,31 +62,36 @@
 
       </template>
 
+      <!--  EXERCISE EDIT -->
       <template #row-details="row">
         <b-card>
           <b-form inline>
+
             <b-form-input
                 v-bind:value="row.item.name"
                 id="inline-form-input-name"
                 class="mb-2 mr-sm-2 mb-sm-0 w-50"
             ></b-form-input>
-            <b-form-select v-model="selectedCategory">
+
+            <b-form-select v-model="row.item.category">
               <b-form-select-option
-                  v-model="selectedCategory"
                   v-for="item in categories"
-                  :key="item.name"
-                  :selected="row.item.name"
+                  :key="item.id"
+                  :value="item.id"
               >
                 {{item.name}}
               </b-form-select-option>
             </b-form-select>
+
             <b-button right @click="row.toggleDetails">Hide</b-button>
+
           </b-form>
         </b-card>
       </template>
 
     </b-table>
 
+    <!--  PAGINATION BAR  -->
     <div class="justify-content-center row my-1">
       <b-pagination size="md" :total-rows="this.exercises.length" :per-page="perPage" v-model="currentPage" />
     </div>
@@ -97,7 +117,7 @@ export default {
   },
   data(){
     return {
-      selectedCategory: null,
+      image: null,
       currentPage: 1,
       perPage: 10,
       filter: null,
@@ -121,7 +141,7 @@ export default {
       return exercise.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) ||
           exercise.category_name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase());
     },
-    async deleteExercise(exerciseID){
+    async deleteExercise(exerciseID) {
       const payload = {
         exerciseID: exerciseID
       }
@@ -134,9 +154,27 @@ export default {
         Toaster.errorMessage('Exercise has not been deleted.', 'error')
       }
     },
+    getUploadedFile(files) {
+      if (!files || files.length === 0) {
+        Toaster.errorMessage('No file has been selected.', 'error')
+        return
+      }
 
-    changeCategory(category){
-      this.selectedCategory = category
+      return files[0]
+    },
+    encodeImage(files) {
+      const file = this.getUploadedFile(files)
+      const reader = new FileReader()
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.image = reader.result
+      }
+
+      reader.onerror = () => {
+        Toaster.errorMessage('File upload has failed.', 'error')
+      }
     }
   }
 }

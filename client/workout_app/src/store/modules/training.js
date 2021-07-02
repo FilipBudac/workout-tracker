@@ -20,7 +20,8 @@ const actions = {
                 return data
             })
             .catch(({response}) => {
-                context.commit(SET_ERROR, response.data.non_field_errors)
+                console.log(response)
+                context.commit(SET_ERROR, response)
             });
     },
 
@@ -45,7 +46,7 @@ const actions = {
                 return data
             })
             .catch(({response}) => {
-                context.commit(SET_ERROR, response.data.non_field_errors)
+                context.commit(SET_ERROR, response)
             });
     },
 
