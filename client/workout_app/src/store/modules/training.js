@@ -1,5 +1,5 @@
 import {SET_ERROR} from "../mutations/auth";
-import {DELETE_EXERCISE, FETCH_CATEGORIES, FETCH_EXERCISES} from "../actions/training";
+import {DELETE_EXERCISE, EDIT_EXERCISE, FETCH_CATEGORIES, FETCH_EXERCISES} from "../actions/training";
 import ApiService from "../../common/api_service";
 
 const state = {
@@ -50,7 +50,22 @@ const actions = {
             });
     },
 
+    [EDIT_EXERCISE](context, payload) {
+        let id, exercise;
+        ({ id, ...exercise } = payload);
 
+        ApiService.setAuthHeader()
+
+        return ApiService.patch(`exercises/${id}`, exercise)
+            .then(({data}) => {
+                return data;
+            })
+            .catch(({response}) => {
+                context.commit(SET_ERROR, response.error)
+                throw response
+            });
+
+    },
 }
 
 const mutations = {

@@ -1,8 +1,7 @@
 <template>
   <div>
 
-    <div class="justify-content-center row container ml-1 mt-4">
-
+    <div class="justify-content-center row container mt-4">
       <!--  SELECT ROWS PER PAGE  -->
       <b-form-fieldset label="Rows per page" class="col-2">
         <b-form-select :options="options" v-model="perPage">
@@ -13,21 +12,68 @@
       <b-form-fieldset label="Filter" class="col-6">
         <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
       </b-form-fieldset>
-
     </div>
+    <div class="w-75 m-5 mx-auto text-left">
+      <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
+    </div>
+    <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
+        <b-card header="Add Exercise" bg-variant="light" class="w-75">
+
+          <b-form>
+            <b-row class="ml-auto">
+              <b-col>
+                <!--  NAME  -->
+                <b-form-input
+                    placeholder="Enter exercise name..."
+                    id="inline-form-input-name"
+                    class="mb-2 mr-sm-2 mb-sm-3 w-100 label-align-md"
+                ></b-form-input>
+              </b-col>
+
+              <b-col align="left">
+                <!--  CATEGORY  -->
+                <b-form-select class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
+                  <b-form-select-option
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category.id"
+                  >
+                    {{category.name}}
+                  </b-form-select-option>
+                </b-form-select>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <!--  DESCRIPTION  -->
+                <b-form-textarea
+                    id="textarea"
+                    placeholder="Enter something..."
+                    rows="3"
+                    max-rows="6"
+                    class="w-100 m-3"
+                ></b-form-textarea>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-button class="ml-3" variant="info" block>Add</b-button>
+            </b-row>
+          </b-form>
+        </b-card>
+    </b-collapse>
 
     <!--  TEST UPLOAD FILE  -->
-    <div class="w-50 container">
-      <b-form-file
-          accept="image/*"
-          @change="encodeImage($event.target.files)"
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
-      ></b-form-file>
+<!--    <div class="w-50 container">-->
+<!--      <b-form-file-->
+<!--          accept="image/*"-->
+<!--          @change="encodeImage($event.target.files)"-->
+<!--          placeholder="Choose a file or drop it here..."-->
+<!--          drop-placeholder="Drop file here..."-->
+<!--      ></b-form-file>-->
 
-      <img :src="image" alt="image">
+<!--      <img :src="image" alt="image">-->
 
-    </div>
+<!--    </div>-->
 
     <!--  EXERCISE TABLE -->
     <b-table
@@ -55,49 +101,94 @@
           <div class="ml-1 mr-1"/>
 
           <div class="table-delete-button text-right">
-            <b-button @click="deleteExercise(exercise.item.id)" variant="danger">
+            <b-button @click="$bvModal.show(exercise.item.id)" variant="danger">
               <b-icon-trash />
             </b-button>
           </div>
         </b-row>
+
+
+        <b-modal :id="exercise.item.id.toString()" hide-footer>
+          <template #modal-title>
+            Are you sure you want to delete {{exercise.item.name}}?
+          </template>
+          <b-row>
+            <b-button class="m-2" @click="$bvModal.hide(exercise.item.id)">Cancel</b-button>
+            <b-button class="m-2" @click="deleteExercise(exercise.item.id); $bvModal.hide(exercise.item.id)" variant="danger">Delete</b-button>
+          </b-row>
+
+        </b-modal>
+
       </template>
+
 
       <!--  EDIT EXERCISE -->
       <template #row-details="exercise">
-        <b-card>
-          <b-form inline>
+        <b-card bg-variant="light">
+          <b-img
+              :src="exercise.item.img"
+              alt=""
+              style="width: 200px; height: 200px"
+              align="right"
+              class="mr-5 border"
+              rounded
+          >
+          </b-img>
+          <b-form v-model="exercise_form" class="w-50">
+            <b-row class="ml-auto">
+              <b-col>
+                <!--  NAME  -->
+                <b-form-input
+                    v-model="exercise.item.name"
+                    v-bind:value="exercise.item.name"
+                    id="inline-form-input-name"
+                    class="mb-2 mr-sm-2 mb-sm-3 w-100 label-align-md"
+                ></b-form-input>
+              </b-col>
 
-            <!--  NAME  -->
-            <b-form-input
-                v-bind:value="exercise.item.name"
-                id="inline-form-input-name"
-                class="mb-2 mr-sm-2 mb-sm-0 w-50"
-            ></b-form-input>
-
-            <!--  CATEGORY  -->
-            <b-form-select v-model="exercise.item.category">
-              <b-form-select-option
-                  v-for="category in categories"
-                  :key="category.id"
-                  :value="category.id"
-              >
-                {{category.name}}
-              </b-form-select-option>
-            </b-form-select>
-
-
-            <!--  DESCRIPTION  -->
-            <b-form-textarea
-                id="textarea"
-                placeholder="Enter something..."
-                rows="3"
-                max-rows="6"
-                v-bind:value="exercise.item.description"
-            ></b-form-textarea>
-
-            <!--  HIDE BUTTON  -->
-            <b-button right @click="exercise.toggleDetails">Hide</b-button>
-
+              <b-col align="left">
+                <!--  CATEGORY  -->
+                <b-form-select v-model="exercise.item.category" class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
+                  <b-form-select-option
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category.id"
+                  >
+                    {{category.name}}
+                  </b-form-select-option>
+                </b-form-select>
+              </b-col>
+            </b-row>
+            <!--  ADD IMAGE  -->
+            <b-row>
+              <b-col cols="">
+                <div class="w-100 container">
+                  <b-form-file
+                      accept="image/*"
+                      @change="encodeImage($event.target.files, exercise.item)"
+                      placeholder="Choose a file or drop it here..."
+                      drop-placeholder="Drop file here..."
+                  ></b-form-file>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <!--  DESCRIPTION  -->
+                <b-form-textarea
+                    v-model="exercise.item.description"
+                    id="textarea"
+                    placeholder="Enter something..."
+                    rows="3"
+                    max-rows="6"
+                    v-bind:value="exercise.item.description"
+                    class="w-100 m-3"
+                ></b-form-textarea>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-button v-on:click="editExercise(exercise.item)" class="ml-5 mr-3" block variant="info">Edit Exercise</b-button>
+            </b-row>
           </b-form>
         </b-card>
       </template>
@@ -120,6 +211,7 @@ import {
   FETCH_CATEGORIES
 } from "@/store/actions/training";
 import Toaster from "@/common/toaster";
+import {EDIT_EXERCISE} from "../../store/actions/training";
 
 export default {
   name: "Exercises",
@@ -131,6 +223,7 @@ export default {
   },
   data(){
     return {
+      exercise_form: [],
       image: null,
       currentPage: 1,
       perPage: 10,
@@ -147,6 +240,7 @@ export default {
       ],
       exercises: [],
       errors: [],
+
     }
   },
   methods: {
@@ -176,18 +270,39 @@ export default {
 
       return files[0]
     },
-    encodeImage(files) {
+    encodeImage(files, exercise) {
       const file = this.getUploadedFile(files)
       const reader = new FileReader()
 
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        this.image = reader.result
+        exercise.img = reader.result
+        console.log(exercise)
+
       }
 
       reader.onerror = () => {
         Toaster.errorMessage('File upload has failed.', 'error')
+      }
+    },
+
+    async editExercise(exercise){
+      const payload = {
+        name: exercise.name,
+        description: exercise.description,
+        category: exercise.category,
+        img: exercise.img,
+        id: exercise.id
+      }
+      try {
+        await this.$store.dispatch(EDIT_EXERCISE, payload)
+        this.exercises = await this.$store.dispatch(FETCH_EXERCISES)
+        Toaster.successMessage('Exercise edit was successful', 'login')
+      } catch (err) {
+        console.log(err)
+        this.errors.push(err)
+        Toaster.errorMessage('Exercise edit failed.', 'error')
       }
     }
   }
