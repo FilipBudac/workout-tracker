@@ -3,8 +3,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import AuthService from "@/common/auth_service";
 import { API_URL } from "@/common/config";
-import {REFRESH_TOKEN} from "@/store/actions/auth";
-import store from "@/store";
+import {mapActions} from "vuex";
 
 const ApiService = {
     init() {
@@ -14,6 +13,11 @@ const ApiService = {
             'Content-Type': 'application/json',
         }
     },
+
+    ...mapActions([
+        "refreshToken",
+    ]),
+
 
     setAuthHeader() {
         Vue.axios.defaults.headers = {
@@ -28,14 +32,14 @@ const ApiService = {
         if (! expired) {
             return;
         }
+        //
+        // const payload = {
+        //     "grant_type": "refresh_token",
+        //     "refresh_token": AuthService.getRefreshToken(),
+        //     "client_id": process.env.VUE_APP_CLIENT_ID,
+        // }
 
-        const payload = {
-            "grant_type": "refresh_token",
-            "refresh_token": AuthService.getRefreshToken(),
-            "client_id": process.env.VUE_APP_CLIENT_ID,
-        }
-
-       await store.dispatch(REFRESH_TOKEN, payload)
+       // await this.refreshToken(payload)
     },
 
     query(resource, params) {

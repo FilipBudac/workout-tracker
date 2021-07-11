@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import { LOGIN } from "@/store/actions/auth";
 import Toaster from "@/common/toaster";
+import {mapActions} from "vuex";
 
 export default {
   name: "Login",
@@ -68,10 +68,13 @@ export default {
         username: "",
         password: ""
       },
-      errors: []
     }
   },
   methods: {
+    ...mapActions([
+      "loginAction"
+    ]),
+
     async onLogin() {
       const payload = {
         grant_type: "password",
@@ -81,11 +84,10 @@ export default {
       }
 
       try {
-        await this.$store.dispatch(LOGIN, payload)
+        await this.loginAction(payload)
         Toaster.successMessage('You are logged in.', 'login')
         await this.$router.push({name: "home"})
       } catch (err) {
-        this.errors.push(err)
         Toaster.errorMessage('Log in failed.', 'error')
       }
     },

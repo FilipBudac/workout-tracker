@@ -64,9 +64,13 @@ const actions = {
 
 const mutations = {
     setError: (state, error) => (state.errors = error),
+
     setExercises: (state, exercises) => (state.exercises = exercises),
+
     setCategories: (state, categories) => (state.categories = categories),
+
     deleteExercise: (state, exerciseID) => state.exercises = state.exercises.filter(exercise => exercise.id !== exerciseID),
+
     setExercise: (state, exercise) => {
         const index = state.exercises.findIndex(tmpExercise => tmpExercise.id === exercise.id);
         if (index !== -1) {
