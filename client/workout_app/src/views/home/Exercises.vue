@@ -1,21 +1,14 @@
 <template>
   <div>
 
-    <div class="justify-content-center row container mt-4">
-      <!--  SELECT ROWS PER PAGE  -->
-      <b-form-fieldset label="Rows per page" class="col-2">
-        <b-form-select :options="exercisesPerPageOptions" v-model="exercisesPerPage">
-        </b-form-select>
-      </b-form-fieldset>
+    <ExercisesSettings
+        v-bind:exerciseSettings.sync="exerciseSettings"
+    />
 
-      <!--  INPUT SEARCH BAR -->
-      <b-form-fieldset label="Filter" class="col-6">
-        <b-form-input v-model="filterQuery" placeholder="Type to Search"></b-form-input>
-      </b-form-fieldset>
-    </div>
     <div class="w-75 m-5 mx-auto text-left">
       <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
     </div>
+
     <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
         <b-card header="Add Exercise" bg-variant="light" class="w-75">
 
@@ -67,11 +60,12 @@
         head-variant="dark"
         class="w-75 m-5 mx-auto table-light border border-secondary"
         responsive="sm"
+        v-if="exercises"
         :items="exercises"
         :fields="tableFields"
-        :current-page="currentPage"
-        :per-page="exercisesPerPage"
-        :filter="filterQuery"
+        :current-page="exerciseSettings.currentPage"
+        :per-page="exerciseSettings.exercisesPerPage"
+        :filter="exerciseSettings.filterQuery"
         :filter-function="filterTable"
         hover
     >
@@ -183,9 +177,10 @@
     </b-table>
 
     <!--  PAGINATION BAR  -->
-    <div class="justify-content-center row my-1">
-      <b-pagination size="md" :total-rows="this.exercises.length" :per-page="exercisesPerPage" v-model="currentPage" />
-    </div>
+    <PaginationBar
+        v-bind:exerciseSettings.sync="exerciseSettings"
+        :exercise-length="this.exercises.length"
+    />
 
   </div>
 </template>
@@ -193,17 +188,17 @@
 <script>
 
 import Toaster from "@/common/toaster";
-import {mapActions, } from "vuex";
+import {mapActions} from "vuex";
+import ExercisesSettings from "@/views/home/ExercisesSettings";
+import PaginationBar from "@/views/home/PaginationBar";
 
 export default {
   name: "Exercises",
-
-  // computed: mapState({
-  //   exercises: state => state.exercises,
-  //   categories: state => state.categories,
-  // }),
-
-  async beforeMount() {
+  components: {
+    ExercisesSettings,
+    PaginationBar
+  },
+  async mounted() {
     this.exercises = await this.fetchExercisesAction();
     this.categories = await this.fetchCategoriesAction();
 
@@ -214,16 +209,16 @@ export default {
   data() {
     return {
       exerciseForm: [],
-
-      currentPage: 1,
-      filterQuery: null,
-      exercisesPerPage: 10,
-      exercisesPerPageOptions: [
-        { text: 5, value: 5 },
-        { text: 10, value: 10 },
-        { text: 15, value: 15 }
-      ],
-
+      exerciseSettings: {
+        currentPage: 1,
+        filterQuery: null,
+        exercisesPerPage: 10,
+        exercisesPerPageOptions: [
+          { text: 5, value: 5 },
+          { text: 10, value: 10 },
+          { text: 15, value: 15 }
+        ]
+      },
       tableFields: [
         { key: "name", label: "Exercises", sortable: true },
         { key: "category_name", label: "Category", sortable: true },
