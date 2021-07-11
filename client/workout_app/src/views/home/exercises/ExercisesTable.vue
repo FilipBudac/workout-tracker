@@ -1,66 +1,9 @@
 <template>
   <div>
-
-    <ExercisesSettings
-        v-bind:exerciseSettings.sync="exerciseSettings"
-    />
-
-    <div class="w-75 m-5 mx-auto text-left">
-      <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
-    </div>
-
-    <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
-        <b-card header="Add Exercise" bg-variant="light" class="w-75">
-
-          <b-form>
-            <b-row class="ml-auto">
-              <b-col>
-                <!--  NAME  -->
-                <b-form-input
-                    placeholder="Enter exercise name..."
-                    id="inline-form-input-name"
-                    class="mb-2 mr-sm-2 mb-sm-3 w-100 label-align-md"
-                ></b-form-input>
-              </b-col>
-
-              <b-col align="left">
-                <!--  CATEGORY  -->
-                <b-form-select class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
-                  <b-form-select-option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                  >
-                    {{category.name}}
-                  </b-form-select-option>
-                </b-form-select>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <!--  DESCRIPTION  -->
-                <b-form-textarea
-                    id="textarea"
-                    placeholder="Enter something..."
-                    rows="3"
-                    max-rows="6"
-                    class="w-100 m-3"
-                ></b-form-textarea>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-button class="ml-3" variant="info" block>Add</b-button>
-            </b-row>
-          </b-form>
-        </b-card>
-    </b-collapse>
-
-    <!--  EXERCISE TABLE -->
     <b-table
         head-variant="dark"
         class="w-75 m-5 mx-auto table-light border border-secondary"
         responsive="sm"
-        v-if="exercises"
         :items="exercises"
         :fields="tableFields"
         :current-page="exerciseSettings.currentPage"
@@ -95,30 +38,29 @@
           </template>
           <b-row>
             <b-button class="m-2" @click="$bvModal.hide(exercise.item.id)">Cancel</b-button>
-            <b-button class="m-2" @click="deleteExercise(exercise.item.id); $bvModal.hide(exercise.item.id)" variant="danger">Delete</b-button>
+            <b-button class="m-2" @click="deleteExercise(exercise.item.id); $bvModal.hide(exercise.item.id.toString())" variant="danger">Delete</b-button>
           </b-row>
-
         </b-modal>
-
       </template>
-
 
       <!--  EDIT EXERCISE -->
       <template #row-details="exercise">
         <b-card bg-variant="light">
+
           <b-img
               :src="exercise.item.img"
-              alt=""
+              alt="exercise-image"
               style="width: 200px; height: 200px"
               align="right"
               class="mr-5 border"
               rounded
-          >
-          </b-img>
-          <b-form v-model="exerciseForm" class="w-50">
+          />
+
+          <b-form class="w-50">
             <b-row class="ml-auto">
+
+              <!--  NAME  -->
               <b-col>
-                <!--  NAME  -->
                 <b-form-input
                     v-model="exercise.item.name"
                     v-bind:value="exercise.item.name"
@@ -127,8 +69,8 @@
                 ></b-form-input>
               </b-col>
 
+              <!--  CATEGORY  -->
               <b-col align="left">
-                <!--  CATEGORY  -->
                 <b-form-select v-model="exercise.item.category" class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
                   <b-form-select-option
                       v-for="category in categories"
@@ -139,11 +81,13 @@
                   </b-form-select-option>
                 </b-form-select>
               </b-col>
+
             </b-row>
-            <!--  ADD IMAGE  -->
+
+            <!--  IMAGE  -->
             <b-row>
               <b-col cols="">
-                <div class="w-100 container">
+                <div class="container">
                   <b-form-file
                       accept="image/*"
                       @change="encodeImage($event.target.files, exercise.item)"
@@ -153,9 +97,10 @@
                 </div>
               </b-col>
             </b-row>
+
+            <!--  DESCRIPTION  -->
             <b-row>
               <b-col>
-                <!--  DESCRIPTION  -->
                 <b-form-textarea
                     v-model="exercise.item.description"
                     id="textarea"
@@ -167,73 +112,52 @@
                 ></b-form-textarea>
               </b-col>
             </b-row>
+
             <b-row>
               <b-button v-on:click="editExercise(exercise.item)" class="ml-5 mr-3" block variant="info">Edit Exercise</b-button>
             </b-row>
+
           </b-form>
+
         </b-card>
       </template>
 
     </b-table>
-
-    <!--  PAGINATION BAR  -->
-    <PaginationBar
-        v-bind:exerciseSettings.sync="exerciseSettings"
-        :exercise-length="this.exercises.length"
-    />
-
   </div>
 </template>
 
 <script>
-
 import Toaster from "@/common/toaster";
-import {mapActions} from "vuex";
-import ExercisesSettings from "@/views/home/ExercisesSettings";
-import PaginationBar from "@/views/home/PaginationBar";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: "Exercises",
-  components: {
-    ExercisesSettings,
-    PaginationBar
+  name: "ExercisesTable",
+  props: {
+    exerciseSettings: {
+      exercisesPerPageOptions: Object,
+      exercisesPerPage: String,
+      filterQuery: String
+    },
   },
-  async mounted() {
-    this.exercises = await this.fetchExercisesAction();
-    this.categories = await this.fetchCategoriesAction();
-
-    console.log(this.categories)
-    console.log(this.exercises)
+  computed: {
+    ...mapGetters({
+      exercises: 'getExercises',
+      categories: 'getCategories'
+    }),
   },
 
   data() {
     return {
-      exerciseForm: [],
-      exerciseSettings: {
-        currentPage: 1,
-        filterQuery: null,
-        exercisesPerPage: 10,
-        exercisesPerPageOptions: [
-          { text: 5, value: 5 },
-          { text: 10, value: 10 },
-          { text: 15, value: 15 }
-        ]
-      },
       tableFields: [
         { key: "name", label: "Exercises", sortable: true },
         { key: "category_name", label: "Category", sortable: true },
         { key: "buttons", label: "" },
       ],
-
-      categories: [],
-      exercises: []
     }
   },
-
   methods: {
     ...mapActions([
       "fetchExercisesAction",
-      "fetchCategoriesAction",
       "deleteExerciseAction",
       "editExerciseAction"
     ]),
@@ -251,7 +175,6 @@ export default {
 
       try {
         await this.deleteExerciseAction(payload)
-        this.exercises = this.exercises.filter(exercise => exercise.id !== exerciseID)
         Toaster.successMessage(`Exercise has been deleted.`, 'account_box')
       } catch (err) {
         Toaster.errorMessage('Exercise has not been deleted.', 'error')
@@ -293,13 +216,11 @@ export default {
 
       try {
         await this.editExerciseAction(payload)
-        this.exercises = await this.fetchExercisesAction()
         Toaster.successMessage('Exercise edit was successful', 'login')
       } catch (err) {
         Toaster.errorMessage('Exercise edit failed.', 'error')
       }
     }
-
   }
 }
 </script>
