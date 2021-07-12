@@ -7,8 +7,8 @@ import Home from "@/views/home/Home";
 import Register from "@/views/Register";
 import Profile from "@/views/Profile";
 import Login from "@/views/Login";
-import Exercises from "@/views/home/Exercises";
-import Trainings from "@/views/home/Trainings";
+import Exercises from "@/views/home/exercises/Exercises";
+import Trainings from "@/views/home/trainings/Trainings";
 import PageNotFound from "@/views/PageNotFound";
 
 

@@ -1,93 +1,14 @@
 <template>
   <div>
-
-    <div class="justify-content-center row container mt-4">
-      <!--  SELECT ROWS PER PAGE  -->
-      <b-form-fieldset label="Rows per page" class="col-2">
-        <b-form-select :options="options" v-model="perPage">
-        </b-form-select>
-      </b-form-fieldset>
-
-      <!--  INPUT SEARCH BAR -->
-      <b-form-fieldset label="Filter" class="col-6">
-        <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
-      </b-form-fieldset>
-    </div>
-    <div class="w-75 m-5 mx-auto text-left">
-      <b-button v-b-toggle.collapse-1 align="left" class="w-25" variant="info">Add Exercise</b-button>
-    </div>
-    <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
-        <b-card header="Add Exercise" bg-variant="light" class="w-75">
-
-          <b-form>
-            <b-row class="ml-auto">
-              <b-col>
-                <!--  NAME  -->
-                <b-form-input
-                    placeholder="Enter exercise name..."
-                    id="inline-form-input-name"
-                    class="mb-2 mr-sm-2 mb-sm-3 w-100 label-align-md"
-                    v-model="add_name"
-                ></b-form-input>
-              </b-col>
-
-              <b-col align="left">
-                <!--  CATEGORY  -->
-                <b-form-select class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
-                  <b-form-select-option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                      v-model="add_category"
-                  >
-                    {{category.name}}
-                  </b-form-select-option>
-                </b-form-select>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <!--  DESCRIPTION  -->
-                <b-form-textarea
-                    id="textarea"
-                    placeholder="Enter something..."
-                    rows="3"
-                    max-rows="6"
-                    class="w-100 m-3"
-                    v-model="add_description"
-                ></b-form-textarea>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-button class="ml-3" variant="info" block>Add</b-button>
-            </b-row>
-          </b-form>
-        </b-card>
-    </b-collapse>
-
-    <!--  TEST UPLOAD FILE  -->
-<!--    <div class="w-50 container">-->
-<!--      <b-form-file-->
-<!--          accept="image/*"-->
-<!--          @change="encodeImage($event.target.files)"-->
-<!--          placeholder="Choose a file or drop it here..."-->
-<!--          drop-placeholder="Drop file here..."-->
-<!--      ></b-form-file>-->
-
-<!--      <img :src="image" alt="image">-->
-
-<!--    </div>-->
-
-    <!--  EXERCISE TABLE -->
     <b-table
         head-variant="dark"
         class="w-75 m-5 mx-auto table-light border border-secondary"
         responsive="sm"
         :items="exercises"
-        :fields="fields"
-        :current-page="currentPage"
-        :per-page="perPage"
-        :filter="filter"
+        :fields="tableFields"
+        :current-page="exerciseSettings.currentPage"
+        :per-page="exerciseSettings.exercisesPerPage"
+        :filter="exerciseSettings.filterQuery"
         :filter-function="filterTable"
         hover
     >
@@ -104,7 +25,7 @@
           <div class="ml-1 mr-1"/>
 
           <div class="table-delete-button text-right">
-            <b-button @click="$bvModal.show(exercise.item.id)" variant="danger">
+            <b-button @click="$bvModal.show(exercise.item.id.toString())" variant="danger">
               <b-icon-trash />
             </b-button>
           </div>
@@ -117,30 +38,29 @@
           </template>
           <b-row>
             <b-button class="m-2" @click="$bvModal.hide(exercise.item.id)">Cancel</b-button>
-            <b-button class="m-2" @click="deleteExercise(exercise.item.id); $bvModal.hide(exercise.item.id)" variant="danger">Delete</b-button>
+            <b-button class="m-2" @click="deleteExercise(exercise.item.id); $bvModal.hide(exercise.item.id.toString())" variant="danger">Delete</b-button>
           </b-row>
-
         </b-modal>
-
       </template>
-
 
       <!--  EDIT EXERCISE -->
       <template #row-details="exercise">
         <b-card bg-variant="light">
+
           <b-img
               :src="exercise.item.img"
-              alt=""
+              alt="exercise-image"
               style="width: 200px; height: 200px"
               align="right"
               class="mr-5 border"
               rounded
-          >
-          </b-img>
-          <b-form v-model="exerciseForm" class="w-50">
+          />
+
+          <b-form class="w-50">
             <b-row class="ml-auto">
+
+              <!--  NAME  -->
               <b-col>
-                <!--  NAME  -->
                 <b-form-input
                     v-model="exercise.item.name"
                     v-bind:value="exercise.item.name"
@@ -149,8 +69,8 @@
                 ></b-form-input>
               </b-col>
 
+              <!--  CATEGORY  -->
               <b-col align="left">
-                <!--  CATEGORY  -->
                 <b-form-select v-model="exercise.item.category" class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
                   <b-form-select-option
                       v-for="category in categories"
@@ -161,11 +81,13 @@
                   </b-form-select-option>
                 </b-form-select>
               </b-col>
+
             </b-row>
-            <!--  ADD IMAGE  -->
+
+            <!--  IMAGE  -->
             <b-row>
               <b-col cols="">
-                <div class="w-100 container">
+                <div class="container">
                   <b-form-file
                       accept="image/*"
                       @change="encodeImage($event.target.files, exercise.item)"
@@ -175,9 +97,10 @@
                 </div>
               </b-col>
             </b-row>
+
+            <!--  DESCRIPTION  -->
             <b-row>
               <b-col>
-                <!--  DESCRIPTION  -->
                 <b-form-textarea
                     v-model="exercise.item.description"
                     id="textarea"
@@ -189,83 +112,75 @@
                 ></b-form-textarea>
               </b-col>
             </b-row>
+
             <b-row>
               <b-button v-on:click="editExercise(exercise.item)" class="ml-5 mr-3" block variant="info">Edit Exercise</b-button>
             </b-row>
+
           </b-form>
+
         </b-card>
       </template>
 
     </b-table>
-
-    <!--  PAGINATION BAR  -->
-    <div class="justify-content-center row my-1">
-      <b-pagination size="md" :total-rows="this.exercises.length" :per-page="perPage" v-model="currentPage" />
-    </div>
-
   </div>
 </template>
 
 <script>
-
-import {
-  DELETE_EXERCISE,
-  FETCH_EXERCISES,
-  FETCH_CATEGORIES
-} from "@/store/actions/training";
 import Toaster from "@/common/toaster";
-import {EDIT_EXERCISE} from "../../store/actions/training";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: "Exercises",
-  async beforeMount() {
-    this.exercises = await this.$store.dispatch(FETCH_EXERCISES)
-    this.categories = await this.$store.dispatch(FETCH_CATEGORIES)
-    console.log(this.categories)
-    console.log(this.exercises)
+  name: "ExercisesTable",
+  props: {
+    exerciseSettings: {
+      exercisesPerPageOptions: Object,
+      exercisesPerPage: String,
+      filterQuery: String
+    },
   },
-  data(){
+  computed: {
+    ...mapGetters({
+      exercises: 'getExercises',
+      categories: 'getCategories'
+    }),
+  },
+
+  data() {
     return {
-      exerciseForm: [],
-      image: null,
-      currentPage: 1,
-      perPage: 10,
-      filter: null,
-      options: [
-        { text: 5, value: 5 },
-        { text: 10, value: 10 },
-        { text: 15, value: 15 }
-      ],
-      fields: [
+      tableFields: [
         { key: "name", label: "Exercises", sortable: true },
         { key: "category_name", label: "Category", sortable: true },
         { key: "buttons", label: "" },
       ],
-      categories: [],
-      exercises: [],
-      errors: [],
-
     }
   },
   methods: {
+    ...mapActions([
+      "fetchExercisesAction",
+      "deleteExerciseAction",
+      "editExerciseAction"
+    ]),
+
     filterTable(exercise, searchString) {
       // search string is present in exercise name or category name
       return exercise.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) ||
           exercise.category_name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase());
     },
+
     async deleteExercise(exerciseID) {
       const payload = {
         exerciseID: exerciseID
       }
+
       try {
-        await this.$store.dispatch(DELETE_EXERCISE, payload)
-        this.exercises = this.exercises.filter(exercise => exercise.id !== exerciseID)
-        Toaster.successMessage('Exercise has been deleted.', 'account_box')
+        await this.deleteExerciseAction(payload)
+        Toaster.successMessage(`Exercise has been deleted.`, 'account_box')
       } catch (err) {
-        this.errors.push(err)
         Toaster.errorMessage('Exercise has not been deleted.', 'error')
       }
     },
+
     getUploadedFile(files) {
       if (!files || files.length === 0) {
         Toaster.errorMessage('No file has been selected.', 'error')
@@ -274,6 +189,7 @@ export default {
 
       return files[0]
     },
+
     encodeImage(files, exercise) {
       const file = this.getUploadedFile(files)
       const reader = new FileReader()
@@ -282,8 +198,6 @@ export default {
 
       reader.onload = () => {
         exercise.img = reader.result
-        console.log(exercise)
-
       }
 
       reader.onerror = () => {
@@ -299,13 +213,11 @@ export default {
         img: exercise.img,
         id: exercise.id
       }
+
       try {
-        await this.$store.dispatch(EDIT_EXERCISE, payload)
-        this.exercises = await this.$store.dispatch(FETCH_EXERCISES)
+        await this.editExerciseAction(payload)
         Toaster.successMessage('Exercise edit was successful', 'login')
       } catch (err) {
-        console.log(err)
-        this.errors.push(err)
         Toaster.errorMessage('Exercise edit failed.', 'error')
       }
     }

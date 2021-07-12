@@ -1,14 +1,6 @@
 import {
-    FETCH_USER,
-    LOGIN,
-    LOGOUT, REFRESH_TOKEN,
-    REGISTER,
-    UPDATE_USER
-} from "../actions/auth";
-import {
     PURGE_AUTH, REFRESH_AUTH,
     SET_AUTH,
-    SET_ERROR,
     SET_USER
 } from "../mutations/auth";
 
@@ -23,116 +15,92 @@ const state = {
 };
 
 const getters = {
-    currentUser(state) {
-        return state.user;
-    },
-    isAuthenticated(state) {
-        return state.isAuthenticated;
-    },
-    errors(state) {
-        return state.errors;
-    }
+    currentUser: state => state.user,
+    isAuthenticated: state => state.isAuthenticated,
+    errors: state => state.errors,
 };
 
 const actions = {
-    [LOGIN](context, payload) {
-        return new Promise((resolve, reject) => {
-            ApiService.post('login/', payload)
-                .then(({ data }) => {
-                    context.commit(SET_AUTH, data)
-                    resolve(data)
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.non_field_errors)
-                    reject(response)
-                });
-        });
+
+    async loginAction({ commit }, payload) {
+        const response = await ApiService.post('login/', payload);
+        const { data } = response;
+
+        commit(SET_AUTH, data);
+
+        return data;
     },
-    [REFRESH_TOKEN](context, payload) {
-        return new Promise((resolve, reject) => {
-            ApiService.refresh('oauth2/token/', payload)
-                .then(({ data }) => {
-                    context.commit(REFRESH_AUTH, data)
-                    resolve(data)
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.non_field_errors)
-                    reject(response)
-                });
-        });
+
+    async refreshToken({ commit }, payload) {
+        const response = await ApiService.refresh('oauth2/token/', payload);
+        const { data } = response;
+
+        commit(REFRESH_AUTH, data);
+
+        return data;
     },
-    [LOGOUT](context) {
-        context.commit(PURGE_AUTH);
+
+    async logoutAction({ commit }) {
+        commit(PURGE_AUTH);
     },
-    [REGISTER](context, payload) {
-        return new Promise((resolve, reject) => {
-            ApiService.post('register/', payload)
-                .then(({ data }) => {
-                    resolve(data)
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.non_field_errors)
-                    reject(response)
-                });
-        });
+
+    async registerAction(_, payload) {
+        const response = await ApiService.post('register/', payload);
+        const { data } = response;
+
+        return data;
     },
-    [UPDATE_USER](context, payload) {
+
+    async updateUserAction({ commit }, payload) {
+        ApiService.setAuthHeader()
+
         const { userID, form } = payload;
 
+        const response = await ApiService.patch(`users/${userID}/`, form);
+        const { data } = response;
+
+        commit(SET_USER, data);
+
+        return data;
+    },
+
+    async fetchUserAction(_, payload) {
         ApiService.setAuthHeader()
 
-        return new Promise(resolve => {
-            ApiService.patch(`users/${userID}/`, form)
-                .then(({ data }) => {
-                    context.commit(SET_USER, data)
-                    resolve(data)
-                })
-                .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.non_field_errors)
-                    resolve(response)
-                });
-        });
-    },
-    [FETCH_USER](context, payload) {
         const { username } = payload;
 
-        ApiService.setAuthHeader()
-        return ApiService.get('users/', {username: username})
-            .then(({ data }) => {
-                return data.shift()
-            })
-            .catch(({ response }) => {
-                context.commit(SET_ERROR, response.data.non_field_errors)
-            });
+        const response = await ApiService.get('users/', {username: username});
+        console.log(response)
+        const { data } = response;
+
+        return data.shift()
     },
 };
 
 const mutations = {
-    [SET_ERROR](state, error) {
-        state.errors = error;
-    },
+    setError: (state, error) => (state.errors = error),
 
-    [SET_AUTH](state, data) {
+    setAuth: (state, data) => {
         state.isAuthenticated = true;
         state.user = data.user;
         state.errors = {};
         AuthService.saveAuthData(data.auth);
     },
 
-    [PURGE_AUTH](state) {
+    purgeAuth: (state) => {
         state.isAuthenticated = false;
         state.user = {};
         state.errors = {};
         AuthService.destroyAuthData();
     },
 
-    [SET_USER](state, data) {
+    setUser: (state, data) => {
         state.isAuthenticated = true;
         state.user = data;
         state.errors = {};
     },
 
-    [REFRESH_AUTH](state, data) {
+    refreshAuth: (state, data) => {
         AuthService.saveAuthData(data);
     },
 };

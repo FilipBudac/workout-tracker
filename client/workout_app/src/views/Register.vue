@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import {REGISTER} from "@/store/actions/auth";
 import Toaster from "@/common/toaster";
+import {mapActions} from "vuex";
 
 export default {
 name: "Register",
@@ -128,11 +128,14 @@ name: "Register",
         email: "",
         password: "",
         repeat_password: "",
-      },
-      errors: []
+      }
     }
   },
   methods:{
+    ...mapActions([
+      "registerAction"
+    ]),
+
     async onRegister(){
       const payload = {
         "first_name": this.form.name,
@@ -144,11 +147,10 @@ name: "Register",
       }
 
       try {
-        await this.$store.dispatch(REGISTER, payload)
+        await this.registerAction(payload)
         Toaster.successMessage('Your registration was successful.', 'login')
         await this.$router.push({name: "login"})
       } catch (err) {
-        this.errors.push(err)
         Toaster.errorMessage('Registration failed. Invalid credentials were given.', 'error')
       }
     }

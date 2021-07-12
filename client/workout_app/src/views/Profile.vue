@@ -81,14 +81,13 @@
 
 <script>
 
-import {FETCH_USER} from "@/store/actions/auth";
-import {UPDATE_USER} from "@/store/actions/auth";
 import Toaster from "@/common/toaster";
+import {mapActions} from "vuex";
 
 export default {
   name: "Profile",
   async beforeMount() {
-    this.user = await this.$store.dispatch(FETCH_USER, this.$route.params)
+    this.user = await this.fetchUserAction(this.$route.params)
   },
   data () {
     return {
@@ -97,6 +96,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      "updateUserAction",
+      "fetchUserAction"
+    ]),
     async onUpdateUser () {
       const payload = {
         userID: this.user.id,
@@ -108,7 +111,7 @@ export default {
       }
 
       try {
-        await this.$store.dispatch(UPDATE_USER, payload)
+        await this.updateUserAction(payload)
         Toaster.successMessage('User has been updated.', 'account_box')
       } catch (e) {
         this.errors.push(e)

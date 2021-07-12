@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import { LOGOUT } from "@/store/actions/auth";
-import { mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import Toaster from "@/common/toaster";
 
 export default {
   name: "Header",
@@ -86,12 +86,15 @@ export default {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
   methods: {
+    ...mapActions([
+      "logoutAction"
+    ]),
    async logout () {
       try {
-        await this.$store.dispatch(LOGOUT)
+        await this.logoutAction()
         await this.$router.push({name: "login"})
       } catch (e) {
-        this.errors.push(e)
+        Toaster.errorMessage('Logout has failed!', 'error')
       }
     }
   }
