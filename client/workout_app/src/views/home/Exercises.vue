@@ -14,7 +14,7 @@
       </b-form-fieldset>
     </div>
     <div class="w-75 m-5 mx-auto text-left">
-      <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
+      <b-button v-b-toggle.collapse-1 align="left" class="w-25" variant="info">Add Exercise</b-button>
     </div>
     <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
         <b-card header="Add Exercise" bg-variant="light" class="w-75">
@@ -27,6 +27,7 @@
                     placeholder="Enter exercise name..."
                     id="inline-form-input-name"
                     class="mb-2 mr-sm-2 mb-sm-3 w-100 label-align-md"
+                    v-model="add_name"
                 ></b-form-input>
               </b-col>
 
@@ -37,6 +38,7 @@
                       v-for="category in categories"
                       :key="category.id"
                       :value="category.id"
+                      v-model="add_category"
                   >
                     {{category.name}}
                   </b-form-select-option>
@@ -52,6 +54,7 @@
                     rows="3"
                     max-rows="6"
                     class="w-100 m-3"
+                    v-model="add_description"
                 ></b-form-textarea>
               </b-col>
             </b-row>
@@ -134,7 +137,7 @@
               rounded
           >
           </b-img>
-          <b-form v-model="exercise_form" class="w-50">
+          <b-form v-model="exerciseForm" class="w-50">
             <b-row class="ml-auto">
               <b-col>
                 <!--  NAME  -->
@@ -223,7 +226,7 @@ export default {
   },
   data(){
     return {
-      exercise_form: [],
+      exerciseForm: [],
       image: null,
       currentPage: 1,
       perPage: 10,
@@ -238,6 +241,7 @@ export default {
         { key: "category_name", label: "Category", sortable: true },
         { key: "buttons", label: "" },
       ],
+      categories: [],
       exercises: [],
       errors: [],
 
