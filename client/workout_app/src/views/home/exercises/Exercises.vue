@@ -8,6 +8,15 @@
 
     <div class="w-75 m-5 mx-auto text-left">
       <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
+      <router-link
+          class="nav-link"
+          exact
+          :to="{
+              name: 'exercise_gallery',
+            }"
+      >
+        <b-button class="ml-5" variant="info"></b-button>
+      </router-link>
     </div>
 
     <b-collapse id="collapse-1" class="w-75 m-5 mx-auto">
