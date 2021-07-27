@@ -2,11 +2,11 @@
   <div>
       <b-row>
 
-        <b-col sm="2">
+        <b-col lg="2">
           <SideNav />
         </b-col>
 
-        <b-col sm="10">
+        <b-col lg="10">
           <router-view></router-view>
         </b-col>
 

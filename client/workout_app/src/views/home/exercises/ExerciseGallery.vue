@@ -1,23 +1,23 @@
 <template>
   <div>
     <b-row>
-
-      <b-col sm="2">
-        <SideNav />
-      </b-col>
-
-      <b-col sm="10">
-        <div>
-          <b-card-group deck>
-            <b-card class="w-25 m-5" img-height="200px" v-for="exercise in exercises" :key="exercise"  :img-src="exercise.img" img-alt="Card image" img-top>
-              <b-card-text>
-                {{exercise.name}}
-              </b-card-text>
-            </b-card>
+        <div v-b-scrollspy:nav-scroller>
+          <b-card-group>
+            <div class="row" v-bind:key="rowIdx" v-for="rowIdx in Math.ceil(exercises.length / 3)">
+              <div v-bind:key="exercise" class="one-third column" v-for="exercise in exercises.slice(3 * (rowIdx - 1), 3 * rowIdx)">
+                <b-card class="row w-75"
+                        img-height="200px"
+                        :img-src="exercise.img"
+                        img-alt="Card image" img-top>
+                  <b-card-text>
+                    {{exercise.name}}
+                  </b-card-text>
+                </b-card>
+              </div>
+            </div>
           </b-card-group>
 
         </div>
-      </b-col>
 
     </b-row>
   </div>
@@ -25,13 +25,11 @@
 
 <script>
 
-import SideNav from "../../../components/sidenav/SideNav";
 import {mapGetters} from "vuex";
 
 
 export default {
   name: "ExerciseGallery",
-  components: {SideNav},
   computed: {
     ...mapGetters({
       exercises: 'getExercises',

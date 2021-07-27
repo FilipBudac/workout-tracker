@@ -10,7 +10,7 @@ import Login from "@/views/Login";
 import Exercises from "@/views/home/exercises/Exercises";
 import Trainings from "@/views/home/trainings/Trainings";
 import PageNotFound from "@/views/PageNotFound";
-import ExerciseGallery from "../views/home/exercises/ExerciseGallery";
+import ExerciseGallery from "@/views/home/exercises/ExerciseGallery";
 
 
 Vue.use(VueRouter)
@@ -54,6 +54,12 @@ const routes = [
                 component: Trainings,
                 beforeEnter: ifNotAuthenticated,
             },
+            {
+                path: 'exercise-gallery',
+                name: 'exercise_gallery',
+                component: ExerciseGallery,
+                beforeEnter: ifNotAuthenticated,
+            },
         ]
     },
     {
@@ -78,11 +84,6 @@ const routes = [
         path: '*',
         name: 'page-not-found',
         component: PageNotFound
-    },
-    {
-        path: '/exercise_gallery',
-        name: 'exercise_gallery',
-        component: ExerciseGallery
     }
 ]
 
