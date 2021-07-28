@@ -104,8 +104,10 @@ export default {
 <style scoped>
   .sidenav-panel {
     background-color: var(--primary-color);
-    height: var(--body-height);
+    /*min-height: 1000px;*/
     width: var(--sidenav-width);
+    min-height: var(--body-height);
+    height:100%;
     border: solid var(--primary-color);
     border-top: solid #1a95a9 1px;
   }

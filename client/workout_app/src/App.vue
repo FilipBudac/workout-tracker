@@ -44,7 +44,7 @@ export default {
   --bg-color: #f1f5f8;
   --primary-font-style: 'Rubik';
   --secondary-font-style: 'Karla';
-  --body-height: 150vh;
+  --body-height: 100vh;
 
   --sidenav-width: 16rem;
   --sidenav-item-height: 3rem;
@@ -60,11 +60,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: var(--bg-color);
-  min-height: calc(var(--body-height) - 80px);
 }
 
 .main-height {
-  height: var(--body-height);
+  min-height: var(--body-height);
 }
 
 .toaster-bg-color {

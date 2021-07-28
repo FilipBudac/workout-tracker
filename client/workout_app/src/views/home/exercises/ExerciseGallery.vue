@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      exercisesInRoWCount: 4
+      exercisesInRoWCount: 3
     }
   },
 }
