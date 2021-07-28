@@ -1,7 +1,7 @@
 <template>
   <div
       v-bind:class="{ 'sidenav-item-container-active': item.active }"
-      class="justify-content-center sidenav-item-container"
+      class="sidenav-item-container"
   >
     <b-icon
         class="sidenav-item-icon"
@@ -95,7 +95,7 @@ export default {
   }
 
   .sidenav-item-container {
-    width: calc(var(--sidenav-width) - 5px);
+    width: calc(var(--sidenav-width) - 3px);
     height: var(--sidenav-item-height);
     line-height: var(--sidenav-item-height); /* text vertical alignment */
   }

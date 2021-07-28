@@ -44,9 +44,9 @@ export default {
   --bg-color: #f1f5f8;
   --primary-font-style: 'Rubik';
   --secondary-font-style: 'Karla';
-  --body-height: 120vh;
+  --body-height: 150vh;
 
-  --sidenav-width: 18rem;
+  --sidenav-width: 16rem;
   --sidenav-item-height: 3rem;
 }
 

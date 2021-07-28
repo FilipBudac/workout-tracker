@@ -8,6 +8,9 @@
 
     <div class="w-75 m-5 mx-auto text-left">
         <b-button v-b-toggle.collapse-1 align="left" class="w-50 mx-auto" variant="info">Add Exercise</b-button>
+
+        <div class="mt-1 mb-2"/>
+
         <router-link
             tag="b-button"
             variant="info"
