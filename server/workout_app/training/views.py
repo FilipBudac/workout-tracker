@@ -3,8 +3,9 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from training.models import Exercise, BodyPartsCategory
-from training.serializers import ExerciseSerializer, BodyPartsCategorySerializer
+from training.models import Exercise, BodyPartsCategory, Training, TrainingRecord
+from training.serializers import ExerciseSerializer, BodyPartsCategorySerializer, TrainingSerializer, \
+    TrainingRecordsSerializer
 
 
 class ExerciseList(ListCreateAPIView):
@@ -30,3 +31,39 @@ class BodyPartsCategoryList(ListCreateAPIView):
     queryset = BodyPartsCategory.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
+
+
+class TrainingList(ListCreateAPIView):
+    permission_classes = [IsAuthenticated, TokenHasReadWriteScope]
+    model = Training
+    serializer_class = TrainingSerializer
+    queryset = Training.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name']
+
+    def post(self, request, *args, **kwargs):
+        # records = request.data['records']
+        # Training.save_records(records)
+        return super().post(request, *args, **kwargs)
+
+
+class TrainingView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated, TokenHasReadWriteScope]
+    model = Training
+    serializer_class = TrainingSerializer
+    queryset = Training.objects.all()
+
+
+class TrainingRecordsList(ListCreateAPIView):
+    permission_classes = [IsAuthenticated, TokenHasReadWriteScope]
+    model = TrainingRecord
+    serializer_class = TrainingRecordsSerializer
+    queryset = TrainingRecord.objects.all()
+    filter_backends = [DjangoFilterBackend]
+
+
+class TrainingRecordsView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated, TokenHasReadWriteScope]
+    model = TrainingRecord
+    serializer_class = TrainingRecordsSerializer
+    queryset = TrainingRecord.objects.all()
