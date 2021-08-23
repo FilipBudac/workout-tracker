@@ -14,7 +14,7 @@ class ExerciseList(ListCreateAPIView):
     serializer_class = ExerciseSerializer
     queryset = Exercise.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'category__name', 'category__id']
+    filterset_fields = ['name', 'category__name', 'category__id', 'user']
 
 
 class ExerciseView(RetrieveUpdateDestroyAPIView):
