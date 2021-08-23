@@ -37,6 +37,7 @@ class Exercise(models.Model):
     description = models.CharField(verbose_name='description', max_length=255)
     img = models.TextField(verbose_name='image path', blank=True, null=True)
     category = models.ForeignKey(BodyPartsCategory, on_delete=models.CASCADE, verbose_name="exercise category")
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, default=1)
 
     def __str__(self):
         return self.name
@@ -92,7 +93,8 @@ class TrainingRecord(models.Model):
     weight = models.FloatField()
     sets = models.IntegerField()
     reps = models.IntegerField()
-    difficulty = models.CharField(choices=ExerciseDifficulty.choices, max_length=255)
+    difficulty = models.CharField(choices=ExerciseDifficulty.choices, max_length=64)
+    difficulty_value = models.FloatField(null=True, blank=True, default=None)
     training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='records')
 
     class Meta:

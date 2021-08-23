@@ -41,11 +41,6 @@ class TrainingList(ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
 
-    def post(self, request, *args, **kwargs):
-        # records = request.data['records']
-        # Training.save_records(records)
-        return super().post(request, *args, **kwargs)
-
 
 class TrainingView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, TokenHasReadWriteScope]
