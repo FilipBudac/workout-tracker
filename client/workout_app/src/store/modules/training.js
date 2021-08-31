@@ -61,6 +61,42 @@ const actions = {
 
         return data;
     },
+
+    async addExerciseAction({ commit, rootGetters }, payload) {
+        ApiService.setAuthHeader();
+
+        const user = rootGetters.currentUser;
+
+        payload['user'] = user.id;
+
+        console.log(payload);
+
+        const response = await ApiService.post(`exercises/`, payload);
+        const { data } = response;
+
+        commit(SET_EXERCISE, data);
+
+        return data;
+    },
+
+    async uploadImageAction({ commit }, payload) {
+        ApiService.setAuthHeader();
+        ApiService.setMultipartHeader()
+
+        const { file, exerciseID, locationOrigin } = payload;
+        const formData = new FormData()
+
+        formData.append("file", file)
+        formData.append("exercise_id", exerciseID)
+        formData.append("location_origin", locationOrigin)
+
+        const response = await ApiService.post(`exercises/image`, formData);
+        const { data } = response;
+
+        commit(SET_EXERCISE, data);
+
+        return data;
+    },
 }
 
 const mutations = {

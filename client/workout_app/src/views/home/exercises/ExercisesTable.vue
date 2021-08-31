@@ -70,7 +70,7 @@
               </b-col>
 
               <!--  CATEGORY  -->
-              <b-col align="left">
+              <b-col>
                 <b-form-select v-model="exercise.item.category" class="mb-2 mr-sm-2 mb-sm-0 ml-3" align-left>
                   <b-form-select-option
                       v-for="category in categories"
@@ -216,7 +216,7 @@ export default {
 
       try {
         await this.editExerciseAction(payload)
-        Toaster.successMessage('Exercise edit was successful', 'login')
+        Toaster.successMessage('Exercise edit was successful.', 'login')
       } catch (err) {
         Toaster.errorMessage('Exercise edit failed.', 'error')
       }
