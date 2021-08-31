@@ -14,7 +14,7 @@ class ExerciseList(ListCreateAPIView):
     serializer_class = ExerciseSerializer
     queryset = Exercise.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'category__name', 'category__id']
+    filterset_fields = ['name', 'category__name', 'category__id', 'user']
 
 
 class ExerciseView(RetrieveUpdateDestroyAPIView):
@@ -40,11 +40,6 @@ class TrainingList(ListCreateAPIView):
     queryset = Training.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
-
-    def post(self, request, *args, **kwargs):
-        # records = request.data['records']
-        # Training.save_records(records)
-        return super().post(request, *args, **kwargs)
 
 
 class TrainingView(RetrieveUpdateDestroyAPIView):

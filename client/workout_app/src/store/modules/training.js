@@ -13,10 +13,11 @@ const getters = {
 
 const actions = {
 
-    async fetchExercisesAction({ commit }) {
+    async fetchExercisesAction({ commit, rootGetters }) {
         ApiService.setAuthHeader();
 
-        const response = await ApiService.get('exercises/');
+        const user = rootGetters.currentUser;
+        const response = await ApiService.get('exercises/', {'user': user.id});
         const { data } = response;
 
         commit(SET_EXERCISES, data);

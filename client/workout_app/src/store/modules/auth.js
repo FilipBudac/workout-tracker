@@ -70,7 +70,6 @@ const actions = {
         const { username } = payload;
 
         const response = await ApiService.get('users/', {username: username});
-        console.log(response)
         const { data } = response;
 
         return data.shift()
