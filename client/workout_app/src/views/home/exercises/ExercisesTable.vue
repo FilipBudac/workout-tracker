@@ -119,7 +119,6 @@
             </b-row>
 
           </b-form>
-
         </b-card>
       </template>
 
@@ -145,6 +144,10 @@ export default {
       exercises: 'getExercises',
       categories: 'getCategories'
     }),
+  },
+  beforeMount() {
+    this.paginatedItems = this.exercises;
+    this.exercisesCount = this.exercises.length;
   },
 
   data() {
