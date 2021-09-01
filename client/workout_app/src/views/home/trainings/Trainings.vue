@@ -69,7 +69,7 @@
           <b-form-group class="ml-1"
                         label="Training title"
                         label-for="trainingName"
-                        v-model="trainingTitle"
+                        v-model="training.name"
                   >
             <b-form-input></b-form-input>
           </b-form-group>
@@ -78,13 +78,13 @@
                 class="my-3"
                 placeholder="Training notes"
                 max-rows="6"
-                v-model="trainingNotes"
+                v-model="training.description"
             >
 
             </b-form-textarea>
           </b-form>
           <b-form-group label="Rate your training session">
-            <b-form-rating v-model="trainingRating" class="m-3" variant="info"></b-form-rating>
+            <b-form-rating v-model="training.rating" class="m-3" variant="info"></b-form-rating>
           </b-form-group>
 
           <b-button variant="info">Save</b-button>
@@ -99,6 +99,8 @@
       </div>
     </div>
   </div>
+
+
 </template>
 
 <script>
@@ -136,10 +138,15 @@ export default {
 
       items: [],
       exerciseNameList: [],
+      training: {
+        name : "",
+        description: "",
+        rating: null,
+        created_at: this.getDate(),
+        user : "",
+        records : []
+      },
 
-      trainingTitle: "",
-      trainingNotes: "",
-      trainingRating: null,
 
       fields: [
         {
@@ -205,14 +212,21 @@ export default {
     return true
     },
 
+    getDate(){
+      let current = new Date()
+      return `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`
+    },
+
     resetInputs(){
       this.repetitions = null
       this.exerciseName = null
       this.intensity = null
       this.sets = null
       this.weight = 0
-    }
+    },
+
   }
+
 }
 
 </script>

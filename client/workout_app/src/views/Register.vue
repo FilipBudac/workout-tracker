@@ -143,7 +143,7 @@ name: "Register",
         "username": this.form.username,
         "password": this.form.password,
         "confirm_password": this.form.repeat_password,
-        "email": this.form.email
+        "email": this.form.email,
       }
 
       try {
