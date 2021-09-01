@@ -1,5 +1,11 @@
 import ApiService from "@/common/api_service";
-import {DELETE_EXERCISE, SET_CATEGORIES, SET_EXERCISE, SET_EXERCISES} from "@/store/mutations/training";
+import {
+    DELETE_EXERCISE,
+    SET_CATEGORIES,
+    SET_EXERCISE,
+    SET_EXERCISE_IMAGE,
+    SET_EXERCISES
+} from "@/store/mutations/training";
 
 const state = {
     exercises: [],
@@ -81,19 +87,18 @@ const actions = {
 
     async uploadImageAction({ commit }, payload) {
         ApiService.setAuthHeader();
-        ApiService.setMultipartHeader()
+        ApiService.setMultipartHeader();
 
-        const { file, exerciseID, locationOrigin } = payload;
-        const formData = new FormData()
+        const { file, exerciseID } = payload;
+        const formData = new FormData();
 
-        formData.append("file", file)
-        formData.append("exercise_id", exerciseID)
-        formData.append("location_origin", locationOrigin)
+        formData.append("file", file);
+        formData.append("exercise_id", exerciseID);
 
         const response = await ApiService.post(`exercises/image`, formData);
         const { data } = response;
 
-        commit(SET_EXERCISE, data);
+        commit(SET_EXERCISE_IMAGE, data);
 
         return data;
     },
@@ -113,6 +118,11 @@ const mutations = {
         if (index !== -1) {
             state.exercises.splice(index, 1, exercise);
         }
+    },
+
+    setExerciseImage: (state, exercise) => {
+        const index = state.exercises.findIndex(tmpExercise => tmpExercise.id === exercise.id);
+        state.exercises[index].img = exercise.img;
     }
 };
 

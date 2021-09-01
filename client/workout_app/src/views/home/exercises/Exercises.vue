@@ -6,8 +6,6 @@
         v-bind:exerciseSettings.sync="exerciseSettings"
     />
 
-    <img src="http://localhost:8080/uploaded_data/exercises/3/Militarypress.jpg" alt="shit">
-
     <!--  BUTTONS  -->
     <div class="container">
       <b-row class="ml-3 text-left">

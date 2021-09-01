@@ -21,8 +21,15 @@ const ApiService = {
 
     setAuthHeader() {
         Vue.axios.defaults.headers = {
-            'Content-Type': 'application/json',
+            ...Vue.axios.defaults.headers,
             'Authorization': `Bearer ${AuthService.getAccessToken()}`
+        }
+    },
+
+    setMultipartHeader() {
+        Vue.axios.defaults.headers = {
+            ...Vue.axios.defaults.headers,
+            'Content-Type': 'multipart/form-data',
         }
     },
 

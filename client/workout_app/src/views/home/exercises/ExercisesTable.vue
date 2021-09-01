@@ -86,15 +86,14 @@
 
             <!--  IMAGE  -->
             <b-row>
-              <b-col cols="">
-                <div class="container">
+              <b-col>
                   <b-form-file
+                      class="ml-3"
                       accept="image/*"
-                      @change="encodeImage($event.target.files, exercise.item)"
+                      @change="onImageChange($event.target.files, exercise.item)"
                       placeholder="Choose a file or drop it here..."
                       drop-placeholder="Drop file here..."
                   ></b-form-file>
-                </div>
               </b-col>
             </b-row>
 
@@ -114,7 +113,9 @@
             </b-row>
 
             <b-row>
-              <b-button v-on:click="editExercise(exercise.item)" class="ml-5 mr-3" block variant="info">Edit Exercise</b-button>
+              <b-col>
+                <b-button v-on:click="editExercise(exercise.item)" class="ml-3 mr-3" block variant="info">Edit Exercise</b-button>
+              </b-col>
             </b-row>
 
           </b-form>
@@ -159,7 +160,8 @@ export default {
     ...mapActions([
       "fetchExercisesAction",
       "deleteExerciseAction",
-      "editExerciseAction"
+      "editExerciseAction",
+      "uploadImageAction",
     ]),
 
     filterTable(exercise, searchString) {
@@ -190,22 +192,26 @@ export default {
       return files[0]
     },
 
-    encodeImage(files, exercise) {
-      const file = this.getUploadedFile(files)
-      const reader = new FileReader()
-
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        exercise.img = reader.result
+    async uploadImage(file, exerciseID) {
+      const payload = {
+        'file': file,
+        'exerciseID': exerciseID
       }
 
-      reader.onerror = () => {
-        Toaster.errorMessage('File upload has failed.', 'error')
+      try {
+        await this.uploadImageAction(payload)
+        Toaster.successMessage('Image was uploaded successfully.', 'login')
+      } catch (err) {
+        Toaster.errorMessage('Image upload failed.', 'error')
       }
     },
 
-    async editExercise(exercise){
+    async onImageChange(files, exercise) {
+      const file = this.getUploadedFile(files)
+      await this.uploadImage(file, exercise.id);
+    },
+
+    async editExercise(exercise) {
       const payload = {
         name: exercise.name,
         description: exercise.description,
