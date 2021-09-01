@@ -1,103 +1,110 @@
 <template>
   <div>
-    <div>
       <b-row>
+
+        <!--  TRAINING RECORD FORM  -->
+        <!--  TODO: TRAINING RECORD FORM COMPONENT  -->
         <b-col>
           <b-card bg-variant="light" class="m-3">
             <b-form>
+
               <!--  EXERCISE NAME  -->
-              <b-form-group  label="Exercise">
+              <b-form-group>
                 <vue-bootstrap-typeahead
                     v-model="exerciseName"
                     :data="exerciseNameList"
+                    placeholder="Exercise"
                 />
               </b-form-group>
 
-              <b-form inline>
-                <b-form-group
-                    class="ml-5"
-                    label="Reps:"
-                    label-for="repetitions"
-                    label-cols-sm="2"
-                >
-                  <b-form-spinbutton id="repetitions" v-model="repetitions" inline></b-form-spinbutton>
-                </b-form-group>
 
-                <b-form-group
-                    class="ml-1"
-                    label="Sets:"
-                    label-for="sets"
-                    label-cols-sm="2"
-                >
+              <div class="text-left">
+                <!--  REPS  -->
+                <div>
+                  <label class="spinbutton-label-width">Reps:</label>
+                  <b-form-spinbutton class="ml-3" id="repetitions" v-model="repetitions" inline></b-form-spinbutton>
+                </div>
+
+                <div class="mt-3"/>
+
+                <!--  SETS  -->
+                <div>
+                  <label class="spinbutton-label-width">Sets:</label>
                   <b-form-spinbutton class="ml-3" id="sets" v-model="sets" inline></b-form-spinbutton>
-                </b-form-group>
+                </div>
 
-
-              </b-form>
-              <b-form >
+                <div class="mt-3"/>
 
                 <!--  WEIGHT  -->
-                <b-form-group class="ml-1"
-                              label="Weight:"
-                              label-cols-sm="2">
-                  <b-form-input class="weight_input" v-model="weight"></b-form-input>
-                </b-form-group>
+                <div>
+                  <label class="textfield-label-width">Weight:</label>
+                  <b-form-input type="number" class="weight_input d-inline-flex" v-model="weight"></b-form-input>
+                </div>
+              </div>
 
-                <b-form-group>
-                  <b-input-group class="w-50">
+              <b-form-group class="mt-3">
+                <b-input-group class="w-50">
 
-                    <!--  INTENSITY  -->
-                    <b-form-input v-model="intensity"></b-form-input>
-                    <b-input-group-append  class="intensity_input">
-                      <b-dropdown :text="selectedOption" variant="outline-secondary">
-                        <b-dropdown-item @click="selectedOption = option" v-model="selectedOption" :key="option" v-for="option in difficultyOptions">{{ option }}</b-dropdown-item>
-                      </b-dropdown>
-                    </b-input-group-append>
+                  <!--  INTENSITY VALUE  -->
+                  <b-form-input
+                      v-model="intensity"
+                      placeholder="Intensity value"
+                  />
 
-                  </b-input-group>
-                </b-form-group>
-              </b-form>
+                  <!--  INTENSITY OPTION -->
+                  <b-input-group-append class="intensity_input">
+                    <b-dropdown :text="selectedOption" variant="outline-secondary">
+                      <b-dropdown-item @click="selectedOption = option" v-model="selectedOption" :key="option" v-for="option in difficultyOptions">{{ option }}</b-dropdown-item>
+                    </b-dropdown>
+                  </b-input-group-append>
 
-              <b-button class="m-3 w-25" @click="addItems" variant="info">Add</b-button>
+                </b-input-group>
+              </b-form-group>
+
+              <b-button class="m-3 w-25" @click="addItems" variant="info">Add Record</b-button>
             </b-form>
 
           </b-card>
         </b-col>
 
+
+        <!--  TRAINING FORM  -->
+        <!--  TODO: TRAINING FORM COMPONENT  -->
       <b-col>
-        <b-card class="mt-3">
-          <b-form-group class="ml-1"
-                        label="Training title"
-                        label-for="trainingName"
-                        v-model="trainingTitle"
-                  >
-            <b-form-input></b-form-input>
-          </b-form-group>
-          <b-form>
-            <b-form-textarea
-                class="my-3"
-                placeholder="Training notes"
-                max-rows="6"
-                v-model="trainingNotes"
-            >
+        <b-card class="mt-3 mr-5">
 
-            </b-form-textarea>
-          </b-form>
-          <b-form-group label="Rate your training session">
-            <b-form-rating v-model="trainingRating" class="m-3" variant="info"></b-form-rating>
-          </b-form-group>
+          <!--  TRAINING NAME  -->
+          <b-form-input
+              placeholder="Training name"
+          />
 
-          <b-button variant="info">Save</b-button>
+          <b-form-textarea
+              class="mt-4 mb-4"
+              placeholder="Training notes"
+              max-rows="6"
+              v-model="trainingNotes"
+          />
+
+          <div>
+            <label class="mt-2">Rate your training session</label>
+            <b-form-rating v-model="trainingRating" class="mb-3" variant="info" />
+          </div>
+
+          <b-button variant="info w-25 mt-2">Save Training</b-button>
         </b-card>
       </b-col>
 
       </b-row>
 
-
+      <!--  TRAINING RECORDS TABLE  -->
+      <!--  TODO: TRAINING RECORDS TABLE COMPONENT  -->
       <div>
+        <div class="m-2">
+          <h3>Training Records</h3>
+        </div>
         <b-table class="w-50" align="center" striped hover :items="items" :fields="fields"></b-table>
       </div>
-    </div>
+
   </div>
 </template>
 
@@ -162,6 +169,7 @@ export default {
   },
   methods:{
     addItems(){
+      console.log("ha")
       if(this.validateExercise() === false){
         console.log("nie no")
 
@@ -173,7 +181,7 @@ export default {
       let combine = this.intensity + " " + this.selectedOption;
       let result = {Exercise: this.exerciseName, Reps: this.repetitions, Sets: this.sets, Weight: this.weight, Intensity: combine}
       this.items.push(result)
-
+      console.log(this.items)
       this.resetInputs()
     },
 
@@ -219,7 +227,15 @@ export default {
 
 <style scoped>
   .weight_input{
-    width: 100px;
+    width: 140px;
+  }
+
+  .spinbutton-label-width {
+    width: 80px;
+  }
+
+  .textfield-label-width {
+    width: 96px;
   }
 
 </style>
