@@ -33,6 +33,8 @@ class TrainingTypeCategory(models.Model):
 
 
 class Exercise(models.Model):
+    ALLOWED_IMAGE_FORMAT = ['image/png', 'image/jpeg']
+
     name = models.CharField(verbose_name='name', max_length=127)
     description = models.CharField(verbose_name='description', max_length=255)
     img = models.TextField(verbose_name='image path', blank=True, null=True)
